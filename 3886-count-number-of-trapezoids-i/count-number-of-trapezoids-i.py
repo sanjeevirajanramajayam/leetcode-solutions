@@ -13,6 +13,6 @@ class Solution(object):
         for i in list(hashmap.values()):
             if i >= 2:
                 w = i * (i - 1) // 2
-                traps = (traps + pairCount * w) % (10**9 + 7)
+                traps = (traps + pairCount * w) 
                 pairCount += w
-        return traps
+        return traps % (10**9 + 7)
