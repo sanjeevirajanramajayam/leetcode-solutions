@@ -1,0 +1,2 @@
+# Write your MySQL query statement below
+select ws.machine_id, round(avg(abs(ws.timestamp - we.timestamp)), 3) as processing_time from ( select * from Activity where activity_type = "start" ) ws join ( select * from Activity where activity_type = "end" ) we on ws.machine_id = we.machine_id and ws.process_id = we.process_id group by ws.machine_id
