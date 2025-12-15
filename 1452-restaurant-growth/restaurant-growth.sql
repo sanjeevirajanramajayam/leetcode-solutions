@@ -1,0 +1,2 @@
+# Write your MySQL query statement below
+select c2.visited_on, sum(amount) as amount, round(sum(amount)/7, 2) as average_amount from Customer c1 join (SELECT DISTINCT visited_on from Customer) c2 on DATEDIFF(c2.visited_on, c1.visited_on) BETWEEN 0 and 6 group by c2.visited_on having count(DISTINCT c1.visited_on) = 7
