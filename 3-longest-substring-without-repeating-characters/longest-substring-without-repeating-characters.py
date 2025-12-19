@@ -4,16 +4,13 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
+        maxLength = 0
         l = 0
-        freqMap = {}
-        maxLen = 0
+        charSet = set()
         for r in range(len(s)):
-            freqMap[s[r]] = freqMap.get(s[r], 0) + 1
-
-            while s[r] in freqMap and freqMap[s[r]] > 1:
-                freqMap[s[l]] -= 1
-                if freqMap[s[l]] == 0:
-                    del freqMap[s[l]]
+            while s[r] in charSet:
+                charSet.remove(s[l])
                 l += 1
-            maxLen = max(len(freqMap), maxLen)
-        return maxLen
+            charSet.add(s[r])
+            maxLength = max(maxLength, r - l + 1)
+        return maxLength
