@@ -5,16 +5,15 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        n = len(cardPoints)
-        leftSum = 0
         maxPoints = 0
-        for i in range(k):
-            leftSum += cardPoints[i]
-        maxPoints = max(maxPoints, leftSum)
-        tempK = k
-        for i in range(n - 1, n - k - 1, -1):
-            leftSum -= cardPoints[tempK - 1]
-            tempK -= 1
-            leftSum += cardPoints[i]
-            maxPoints = max(maxPoints, leftSum)
+        points = 0
+        for i in range(0, k):
+            points += cardPoints[i]
+        maxPoints = points
+        count = k - 1
+        for j in range(len(cardPoints) - 1, len(cardPoints) - k - 1, -1):
+            points -= cardPoints[count]
+            count -= 1
+            points += cardPoints[j]
+            maxPoints = max(points, maxPoints)
         return maxPoints
