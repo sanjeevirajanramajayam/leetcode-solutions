@@ -6,19 +6,16 @@ class Solution(object):
         :rtype: List[int]
         """
         stack = []
-        nge = {}
+        ans = {}
+        res = []
         for i in range(len(nums2) - 1, -1, -1):
-            while stack and stack[-1] <= nums2[i]:
+            while stack and stack[-1] < nums2[i]:
                 stack.pop()
             if not stack:
-                nge[nums2[i]] = -1
+                ans[nums2[i]] = -1
             else:
-                nge[nums2[i]] = stack[-1]
+                ans[nums2[i]] = stack[-1]
             stack.append(nums2[i])
-        
-        ans = []
-
         for i in nums1:
-            ans.append(nge[i])
-
-        return ans
+            res.append(ans[i])
+        return res
