@@ -4,36 +4,37 @@ class Solution(object):
         :type arr: List[int]
         :rtype: int
         """
-        def findPSEE(arr):
+        def nse(arr):
             stack = []
-            res = [0] * len(arr)
-            for i in range(len(arr)):
+            ans = [0] * len(arr)
+            for i in range(len(arr) - 1, -1, -1):
                 while stack and arr[stack[-1]] > arr[i]:
                     stack.pop()
                 if not stack:
-                    res[i] = -1
+                    ans[i] = len(arr)
                 else:
-                    res[i] = stack[-1]
+                    ans[i] = stack[-1]
                 stack.append(i)
-            return res
-        def findNSE(arr):
+            return ans
+        
+        def psee(arr):
             stack = []
-            res = [0] * len(arr)
-            for i in range(len(arr) - 1, -1, -1):
+            ans = [0] * len(arr)
+            for i in range(len(arr)):
                 while stack and arr[stack[-1]] >= arr[i]:
                     stack.pop()
                 if not stack:
-                    res[i] = len(arr)
+                    ans[i] = -1
                 else:
-                    res[i] = stack[-1]
+                    ans[i] = stack[-1]
                 stack.append(i)
-            return res
-        
-        psee = findPSEE(arr)
-        nse = findNSE(arr)
-        sum = 0
+            return ans
+
+        psee = psee(arr)
+        nse = nse(arr)
+        count = 0
         for i in range(len(arr)):
             left = i - psee[i]
             right = nse[i] - i
-            sum =  (sum + ((left * right) * arr[i]) )% (10**9 + 7)
-        return sum 
+            count += (left * right) * arr[i]
+        return count % (10 ** 9 + 7)
