@@ -6,7 +6,6 @@ class Solution(object):
         """
         maxArea = 0
         stack = []
-        ans = [0] * len(heights)
         for i in range(len(heights)):
             while stack and heights[stack[-1]] >= heights[i]:
                 nse = i
@@ -17,10 +16,6 @@ class Solution(object):
                     pse = -1
                 width = nse - pse - 1
                 maxArea = max(maxArea, width * heights[element])
-            if not stack:
-                ans[i] = -1
-            else:
-                ans[i] = stack[-1]
             stack.append(i)
 
         while stack:
