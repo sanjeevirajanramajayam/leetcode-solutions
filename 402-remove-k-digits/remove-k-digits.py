@@ -1,31 +1,33 @@
 class Solution(object):
     def removeKdigits(self, num, k):
-        stack = []
+        """
+        :type num: str
+        :type k: int
+        :rtype: str
+        """
         if k == len(num):
             return "0"
-
-        for digit in num:
-            while stack and k > 0 and stack[-1] > digit:
-                stack.pop()
+        stack = []
+        for i in range(len(num)):
+            while stack and stack[-1] > num[i] and k > 0:
                 k -= 1
-            stack.append(digit)
+                stack.pop()
+            stack.append(num[i])
 
-        # create string
         s = "".join(stack)
 
-        # remove leading zeros
         news = ""
-        for ch in s:
-            if ch == "0" and news == "":
-                continue
-            news += ch
+        isNum = False
 
-        # if everything removed
-        if news == "":
-            news = "0"
+        for i in range(len(s)):
+            if s[i] != "0":
+                isNum = True
+            if isNum:
+                news += s[i]
 
-        # if k is still left, remove from end
         if k > 0:
-            news = news[:-k] if k < len(news) else "0"
-
+            news = news[:len(news) - k]
+        
+        if news == "":
+            return "0"
         return news
