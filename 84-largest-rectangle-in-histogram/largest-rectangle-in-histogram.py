@@ -4,38 +4,32 @@ class Solution(object):
         :type heights: List[int]
         :rtype: int
         """
-        def pse(arr):
-            stack = []
-            ans = [0] * len(heights)
-            for i in range(len(heights)):
-                while stack and heights[stack[-1]] >= heights[i]:
-                    stack.pop()
-                if not stack:
-                    ans[i] = -1
-                else:
-                    ans[i] = stack[-1]
-                stack.append(i)
-            return ans
-
-        def nse(arr):
-            stack = []
-            ans = [0] * len(heights)
-            for i in range(len(heights) - 1, -1, -1):
-                while stack and heights[stack[-1]] >= heights[i]:
-                    stack.pop()
-                if not stack:
-                    ans[i] = len(heights)
-                else:
-                    ans[i] = stack[-1]
-                stack.append(i)
-            return ans
-
-        nse = nse(heights)
-        pse = pse(heights)
         maxArea = 0
-
+        stack = []
+        ans = [0] * len(heights)
         for i in range(len(heights)):
-            width = nse[i] - pse[i] - 1
-            maxArea = max(width * heights[i], maxArea)
-        
+            while stack and heights[stack[-1]] >= heights[i]:
+                nse = i
+                element = stack.pop()
+                if stack:
+                    pse = stack[-1]
+                else:
+                    pse = -1
+                width = nse - pse - 1
+                maxArea = max(maxArea, width * heights[element])
+            if not stack:
+                ans[i] = -1
+            else:
+                ans[i] = stack[-1]
+            stack.append(i)
+
+        while stack:
+            element = stack.pop()
+            if stack:
+                pse = stack[-1]
+            else:
+                pse = -1
+            nse = len(heights)
+            width = nse - pse - 1
+            maxArea = max(maxArea, width * heights[element])
         return maxArea
