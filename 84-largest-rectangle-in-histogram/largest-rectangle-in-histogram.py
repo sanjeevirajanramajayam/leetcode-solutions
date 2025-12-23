@@ -1,23 +1,42 @@
 class Solution(object):
     def largestRectangleArea(self, heights):
-        stack = []
-        maxArea = 0
-        for i in range(len(heights)):
-            while stack and heights[stack[-1]] > heights[i]:
-                element = stack.pop()
+        """
+        :type heights: List[int]
+        :rtype: int
+        """
+        def pse(arr):
+            stack = []
+            ans = [0] * len(heights)
+            for i in range(len(heights)):
+                while stack and heights[stack[-1]] >= heights[i]:
+                    stack.pop()
                 if not stack:
-                    pse = -1
+                    ans[i] = -1
                 else:
-                    pse = stack[-1]
-                nse = i
-                maxArea = max(maxArea, (nse - pse - 1) * heights[element])
-            stack.append(i)
-        while stack:
-            element = stack.pop()
-            if not stack:
-                pse = -1
-            else:
-                pse = stack[-1]
-            nse = len(heights)
-            maxArea = max(maxArea, (nse - pse - 1) * heights[element])
+                    ans[i] = stack[-1]
+                stack.append(i)
+            return ans
+
+        def nse(arr):
+            stack = []
+            ans = [0] * len(heights)
+            for i in range(len(heights) - 1, -1, -1):
+                while stack and heights[stack[-1]] >= heights[i]:
+                    stack.pop()
+                if not stack:
+                    ans[i] = len(heights)
+                else:
+                    ans[i] = stack[-1]
+                stack.append(i)
+            return ans
+
+        nse = nse(heights)
+        pse = pse(heights)
+        print(nse, pse)
+        maxArea = 0
+
+        for i in range(len(heights)):
+            width = nse[i] - pse[i] - 1
+            maxArea = max(width * heights[i], maxArea)
+        
         return maxArea
