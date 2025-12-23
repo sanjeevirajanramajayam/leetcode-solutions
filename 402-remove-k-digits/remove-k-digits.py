@@ -5,8 +5,7 @@ class Solution(object):
         :type k: int
         :rtype: str
         """
-        if k == len(num):
-            return "0"
+
         stack = []
         for i in range(len(num)):
             while stack and stack[-1] > num[i] and k > 0:
