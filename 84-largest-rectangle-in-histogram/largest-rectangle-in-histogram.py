@@ -32,7 +32,6 @@ class Solution(object):
 
         nse = nse(heights)
         pse = pse(heights)
-        print(nse, pse)
         maxArea = 0
 
         for i in range(len(heights)):
