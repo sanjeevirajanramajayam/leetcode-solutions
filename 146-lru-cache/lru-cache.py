@@ -1,7 +1,7 @@
 class Node:
-    def __init__(self, _key, _value):
-        self.key = _key
-        self.value = _value
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
         self.next = None
         self.prev = None
 
@@ -11,38 +11,24 @@ class LRUCache(object):
         """
         :type capacity: int
         """
-        self.capacity = capacity
-        self.map = {}
-
         self.head = Node(-1, -1)
         self.tail = Node(-1, -1)
-
         self.head.next = self.tail
         self.tail.prev = self.head
-
-    def deleteNode(self, nodeRef):
-        nodeRefPrev = nodeRef.prev
-        nodeRefNext = nodeRef.next
-        nodeRefPrev.next = nodeRefNext
-        nodeRefNext.prev = nodeRefPrev
-
-    def addToHead(self, nodeRef):
-        HeadNext = self.head.next
-        self.head.next = nodeRef
-        nodeRef.next = HeadNext
-        HeadNext.prev = nodeRef
-        nodeRef.prev = self.head
+        self.capacity = capacity
+        self.nodeMap = {}
+        
 
     def get(self, key):
         """
         :type key: int
         :rtype: int
         """
-        if key in self.map:
-            val = self.map[key].value
-            self.deleteNode(self.map[key])
-            self.addToHead(self.map[key])
-            return val
+        if key in self.nodeMap:
+            node = self.nodeMap[key]
+            self.removeNode(node)
+            self.appendToHead(node)
+            return node.value
         else:
             return -1
         
@@ -53,22 +39,36 @@ class LRUCache(object):
         :type value: int
         :rtype: None
         """
-
-        if key in self.map:
-            node = self.map[key]
+        if key in self.nodeMap:
+            node = self.nodeMap[key]
             node.value = value
-            self.deleteNode(self.map[key])
-            self.addToHead(self.map[key])
-            return
+            self.removeNode(node)
+            self.appendToHead(node)
+        else:
+            if self.capacity == 0:
+                lastNode = self.tail.prev
+                self.removeNode(lastNode)
+                del self.nodeMap[lastNode.key]
+                self.capacity += 1
+            newNode = Node(key, value)
+            self.appendToHead(newNode)
+            self.capacity -= 1
+            self.nodeMap[key] = newNode 
 
-        if len(self.map) == self.capacity:
-            lastNode = self.tail.prev
-            self.deleteNode(lastNode)
-            del self.map[lastNode.key]
-        
-        newNode = Node(key, value)
-        self.addToHead(newNode)
-        self.map[newNode.key] = newNode
+    def appendToHead(self, node):
+        headNext = self.head.next
+        self.head.next = node
+        node.next = headNext
+
+        headNext.prev = node
+        node.prev = self.head
+    
+    def removeNode(self, node):
+        prevNode = node.prev
+        nextNode = node.next
+        prevNode.next = nextNode
+        nextNode.prev = prevNode
+
 
 
 # Your LRUCache object will be instantiated and called as such:
