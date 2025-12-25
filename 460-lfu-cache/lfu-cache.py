@@ -1,10 +1,10 @@
 class Node:
-    def __init__(self, _key, _value):
-        self.key = _key
-        self.value = _value
-        self.freq = 1
+    def __init__(self, key, value):
         self.next = None
         self.prev = None
+        self.freq = 1
+        self.key = key
+        self.value = value
 
 class DLL:
     def __init__(self):
@@ -13,28 +13,22 @@ class DLL:
         self.head.next = self.tail
         self.tail.prev = self.head
         self.size = 0
-    
-    def add_front(self, node):
-        temp = self.head.next
+
+    def appendNode(self, node):
+        nextNode = self.head.next
         self.head.next = node
-        node.next = temp
-        temp.prev = node
+        node.next = nextNode
+        nextNode.prev = node
         node.prev = self.head
         self.size += 1
 
-    def remove_node(self, node):
-        nodePrev = node.prev
-        nodeNext = node.next
-        nodePrev.next = nodeNext
-        nodeNext.prev = nodePrev
+    def removeNode(self, node):
+        prevNode = node.prev
+        nextNode = node.next
+        prevNode.next = nextNode
+        nextNode.prev = prevNode
         self.size -= 1
-    
-    def pop_last(self):
-        if self.size > 0:
-            lastNode = self.tail.prev
-            self.remove_node(lastNode)
-            return lastNode
-        return None
+        
 
 class LFUCache(object):
 
@@ -43,26 +37,27 @@ class LFUCache(object):
         :type capacity: int
         """
         self.capacity = capacity
-        self.size = 0
+        self.currentCap = 0
         self.nodeMap = {}
         self.freqMap = {}
-        self.minFreq = 0
+        self.minFreq = -1
 
-    def update_node(self, node):
+    def updateNode(self, node):
         freq = node.freq
+        DDList = self.freqMap[freq]
+        DDList.removeNode(node)
 
-        self.freqMap[freq].remove_node(node)
-
-        if freq == self.minFreq and self.freqMap[freq].size == 0:
+        if freq == self.minFreq and DDList.size == 0:
             self.minFreq += 1
-
+        
         freq += 1
         node.freq = freq
 
         if freq not in self.freqMap:
             self.freqMap[freq] = DLL()
+        
+        self.freqMap[freq].appendNode(node)
 
-        self.freqMap[freq].add_front(node) 
 
     def get(self, key):
         """
@@ -70,9 +65,9 @@ class LFUCache(object):
         :rtype: int
         """
         if key in self.nodeMap:
-            val = self.nodeMap[key].value
-            self.update_node(self.nodeMap[key])
-            return val
+            node = self.nodeMap[key]
+            self.updateNode(node)
+            return node.value
         else:
             return -1
         
@@ -83,34 +78,26 @@ class LFUCache(object):
         :type value: int
         :rtype: None
         """
-        if self.capacity == 0:
-            return
-
         if key in self.nodeMap:
             node = self.nodeMap[key]
             node.value = value
-            self.update_node(node)
+            self.updateNode(node)
             return
-        
-        if self.size == self.capacity:
-            nodeList = self.freqMap[self.minFreq]
-            node = nodeList.pop_last()
-            del self.nodeMap[node.key]
-            self.size -= 1
 
-        node = Node(key, value)
-    
-        if 1 not in self.freqMap:
-            self.freqMap[1] = DLL()
-
-        self.freqMap[1].add_front(node)
-        self.nodeMap[key] = node
+        if self.currentCap == self.capacity:
+            minList = self.freqMap[self.minFreq]
+            lastNode = minList.tail.prev
+            minList.removeNode(lastNode)
+            del self.nodeMap[lastNode.key]
+            self.currentCap -= 1
 
         self.minFreq = 1
-        self.size += 1
-        
-
-
+        self.currentCap += 1
+        newNode = Node(key, value)
+        if newNode.freq not in self.freqMap:
+            self.freqMap[newNode.freq] = DLL()
+        self.nodeMap[key] = newNode
+        self.freqMap[newNode.freq].appendNode(newNode)
 # Your LFUCache object will be instantiated and called as such:
 # obj = LFUCache(capacity)
 # param_1 = obj.get(key)
