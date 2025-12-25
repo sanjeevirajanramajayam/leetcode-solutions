@@ -5,14 +5,14 @@ class Solution(object):
         :type k: int
         :rtype: List[int]
         """
-        res = []
+        ans = [0] * (len(nums) - (k - 1))
         dq = deque()
         for i in range(len(nums)):
+            while dq and nums[dq[-1]] <= nums[i]:
+                dq.pop()
             while dq and dq[0] <= i - k:
                 dq.popleft()
-            while dq and nums[dq[-1]] < nums[i]:
-                dq.pop()
             dq.append(i)
-            if i >= k - 1:
-                res.append(nums[dq[0]])
-        return list(res)
+            if i >= (k - 1):
+                ans[i - (k - 1)] = nums[dq[0]]      
+        return ans      
