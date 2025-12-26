@@ -6,23 +6,26 @@ class Solution(object):
         """
         minClosingTime = float('inf')
         penalty = 0
-        ans = {}
+        # ans = {}
         for i in range(len(customers)):
             if customers[i] == "Y":
                 penalty += 1
         
-        ans[penalty] = 0
+        # ans[penalty] = 0
         minClosingTime = min(penalty, minClosingTime)
-
+        earliestDay = 0
         for i in range(len(customers)):
             if customers[i] == "Y":
                 penalty -= 1
             else:
                 penalty += 1
 
-            if penalty not in ans:
-                ans[penalty] = i + 1
-            minClosingTime = min(penalty, minClosingTime)
+            # if penalty not in ans:
+            #     ans[penalty] = i + 1
+            # minClosingTime = min(penalty, minClosingTime)
+            if penalty < minClosingTime:
+                minClosingTime = penalty
+                earliestDay = i + 1
         # print(ans, minClosingTime)
-        return ans[minClosingTime]
+        return earliestDay
 
