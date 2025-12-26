@@ -11,7 +11,7 @@ class Solution(object):
         suffixList[len(events) - 1] = events[len(events) - 1][2]
         suffixMax = 0
         for i in range(len(events)-2, -1, -1):
-            suffixMax = max(suffixMax, events[i + 1][2], events[i][2])
+            suffixMax = max(suffixList[i + 1], events[i][2])
             suffixList[i] = suffixMax
 
         for i in range(len(events)):
