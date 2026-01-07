@@ -5,15 +5,9 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        low = 0
-        high = len(arr) - 1
-        while low <= high:
-            mid = (low + high) // 2
-            missing = arr[mid] - (mid + 1)
-
-            if missing >= k:
-                high = mid - 1
-            else:
-                low = mid + 1
-
-        return high + k + 1
+        
+        for i in range(len(arr)):
+            if arr[i] > k:
+                return k
+            k += 1
+        return k
