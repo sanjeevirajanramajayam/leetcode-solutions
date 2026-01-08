@@ -6,18 +6,18 @@ class Solution(object):
         :rtype: bool
         """
         counter = {}
-        for i in hand:
-            counter[i] = counter.get(i, 0) + 1
-        heap = list(counter.keys())
-        heapq.heapify(heap)
-        while heap:
-            smallest = heap[0]
-            for i in range(smallest, smallest + groupSize):
+        for i in range(len(hand)):
+            counter[hand[i]] = counter.get(hand[i], 0) + 1
+        minHeap = list(counter.keys())
+        heapq.heapify(minHeap)
+        while minHeap:
+            first = minHeap[0]
+            for i in range(first, first + groupSize):
                 if i not in counter:
                     return False
                 counter[i] -= 1
                 if counter[i] == 0:
-                    if i != heap[0]:
+                    if i != minHeap[0]:
                         return False
-                    heapq.heappop(heap)
+                    heapq.heappop(minHeap)
         return True
