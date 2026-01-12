@@ -10,13 +10,17 @@ class Solution(object):
         :type root: Optional[TreeNode]
         :rtype: List[int]
         """
+        if not root:
+            return []
+        stack = []
+        node = root
         res = []
-        def inOrder(root):
-            if root == None:
-                return
-            inOrder(root.left)
-            res.append(root.val)
-            inOrder(root.right)
-        
-        inOrder(root)
+        while stack or node:
+            if node:
+                stack.append(node)
+                node = node.left
+            else:
+                node = stack.pop()
+                res.append(node.val)
+                node = node.right
         return res
