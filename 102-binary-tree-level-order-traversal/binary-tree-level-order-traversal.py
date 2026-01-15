@@ -12,9 +12,11 @@ class Solution(object):
         """
         queue = deque([root])
         ans = []
+        if not root:
+            return []
         while queue:
             size = len(queue)
-            res = []
+            res = [-1] * size
             for i in range(size):
                 val = queue.popleft()
                 if val:
@@ -22,7 +24,7 @@ class Solution(object):
                         queue.append(val.left)
                     if val.right:
                         queue.append(val.right)
-                    res.append(val.val)
+                    res[i] = (val.val)
             if res:
                 ans.append(res)
-        return ans
+        return ans        
