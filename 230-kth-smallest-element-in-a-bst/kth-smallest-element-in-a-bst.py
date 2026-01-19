@@ -20,6 +20,7 @@ class Solution(object):
             # print(count[0])
             if count[0] == k:
                 count[1] = node.val
+                return
             inOrder(node.right)
         inOrder(root)
         return count[1]
