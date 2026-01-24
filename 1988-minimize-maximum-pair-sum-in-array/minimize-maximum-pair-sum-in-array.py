@@ -7,7 +7,6 @@ class Solution(object):
         nums = sorted(nums)
         l = 0
         r = len(nums) - 1
-        print(nums)
         maxSum = 0
         while nums[l] <= nums[r]:
             maxSum = max(maxSum, nums[l] + nums[r])
