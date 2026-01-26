@@ -10,30 +10,32 @@ class Solution(object):
         :type root: Optional[TreeNode]
         :rtype: List[List[int]]
         """
-
+        
         if root == None:
-            return None
-
+            return []
+        
         nodeList = []
 
         def levelOrder(root):
-            queue = [(root, 0, 0)]
+            queue = deque([(root, 0, 0)])
             while queue:
                 size = len(queue)
                 for i in range(size):
-                    root, row, col = queue.pop()
-                    nodeList.append((root.val, row, col))
-                    if root.left:
-                        queue.append((root.left, row + 1, col - 1))
-                    if root.right:
-                        queue.append((root.right, row + 1, col + 1))
+                    node, row, col = queue.popleft()
+                    nodeList.append((node.val, row, col))
+                    if node.left:
+                        queue.append((node.left, row + 1, col - 1))
+                    if node.right:
+                        queue.append((node.right, row + 1, col + 1))
         levelOrder(root)
-        nodeList = sorted(nodeList, key = lambda x: (x[2], x[1], x[0]))
+        nodeList = sorted(nodeList, key= lambda x: (x[2], x[1], x[0]))
+        ans = []
         prevCol = float('inf')
-        res = []
-        for i in nodeList:
-            if i[2] != prevCol:
-                res.append([])
-                prevCol = i[2]
-            res[-1].append(i[0])
-        return res
+        for i in range(len(nodeList)):
+            if prevCol != nodeList[i][2]:
+                ans.append([])
+                prevCol = nodeList[i][2]
+            ans[-1].append(nodeList[i][0])
+        
+        return ans
+                
