@@ -11,10 +11,14 @@ class Solution(object):
         :type q: Optional[TreeNode]
         :rtype: bool
         """
-        
-        def isSame(p, q):
-            if p == None or q == None:
-                return (p == q)
+
+        def isSameTree(r1, r2):
+            if (r1 == None and r2 is not None) or (r2 == None and r1 is not None):
+                return False
             
-            return isSame(p.left, q.left) and isSame(p.right, q.right) and p.val == q.val
-        return isSame(p, q)
+            if r1 == None and r2 == None:
+                return True
+            
+            return r1.val == r2.val and isSameTree(r1.left, r2.left) and isSameTree(r1.right, r2.right)
+        
+        return isSameTree(p, q)
