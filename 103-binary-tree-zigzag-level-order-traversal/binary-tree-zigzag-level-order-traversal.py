@@ -11,25 +11,27 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         queue = deque([root])
-        ans = []
-        flag = True
+        res = []
+
         if not root:
-            return []
+            return res
+        flag = True
         while queue:
             size = len(queue)
-            res = [-1] * size
+            temp = [-1] * size 
+            # print([x.val for x in queue])
             for i in range(size):
-                val = queue.popleft()
-                if val:
-                    if val.left:
-                        queue.append(val.left)
-                    if val.right:
-                        queue.append(val.right)
-                    if flag:
-                        res[i] = (val.val)
-                    else:
-                        res[size - i - 1] = val.val
-            if res:
-                ans.append(res)
+                node = queue.popleft()
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+                if flag:
+                    temp[i] = (node.val)
+                else:
+                    temp[size - i - 1] = node.val
             flag = not flag
-        return ans        
+            # print([x for x in temp])
+            res.append(temp)
+        
+        return res
