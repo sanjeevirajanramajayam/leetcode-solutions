@@ -13,10 +13,10 @@ class Solution(object):
         def maxH(root):
             if root == None:
                 return 0
-
-            lh = maxH(root.left)
-            rh = maxH(root.right)
-
-            return 1 + max(lh, rh)
+            
+            left = maxH(root.left)
+            right = maxH(root.right)
         
+            return max(left, right) + 1
+
         return maxH(root)
