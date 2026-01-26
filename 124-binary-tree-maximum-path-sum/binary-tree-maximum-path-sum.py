@@ -10,7 +10,8 @@ class Solution(object):
         :type root: Optional[TreeNode]
         :rtype: int
         """
-        res = [float('-inf')]
+        self.answer = float('-inf')
+
         def maxH(root):
             if root == None:
                 return 0
@@ -18,9 +19,10 @@ class Solution(object):
             lh = max(0, maxH(root.left))
             rh = max(0, maxH(root.right))
 
-            res[0] = max(res[0], root.val + lh + rh)
+            self.answer = max(self.answer, root.val + lh + rh)
 
             return root.val + max(lh, rh)
-
+    
         maxH(root)
-        return res[0]
+        
+        return self.answer 
