@@ -13,19 +13,27 @@ class Solution(object):
         :type q: TreeNode
         :rtype: TreeNode
         """
-        def postOrder(root):
-            if root == None:
+
+        def preOrderTraversal(node):
+            if node == None:
                 return None
-            if root.val == p.val:
-                return root
-            if root.val == q.val:
-                return root
-            left = postOrder(root.left)
-            right = postOrder(root.right)
-            if not left:
-                return right
-            elif not right:
-                return left
-            else:
-                return root
-        return postOrder(root)
+            
+            if node.val == p.val:
+                return node
+            
+            if node.val == q.val:
+                return node
+            
+            lh = preOrderTraversal(node.left)
+            rh = preOrderTraversal(node.right)
+
+            if not lh:
+                return rh
+            
+            if not rh:
+                return lh
+            
+            return node
+        
+        lca = preOrderTraversal(root)
+        return lca
