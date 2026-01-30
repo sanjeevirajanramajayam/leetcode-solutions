@@ -10,34 +10,30 @@ class Solution(object):
         :type root: Optional[TreeNode]
         :rtype: int
         """
-        
-        # Time Complexity : O((log n) ^ 2)
-        # Space Complexity: O(1)
-
-        def heightFind(root):
-            if root == None:
+        def heightFind(node):
+            if node == None:
                 return 0
             
-            lh = leftHeight(root)
-            rh = rightHeight(root)
+            lh = leftHeight(node)
+            rh = rightHeight(node)
 
-            if (lh == rh):
+            if lh == rh:
                 return 2 ** (lh) - 1
             else:
-                return 1 + heightFind(root.left) + heightFind(root.right)
-
-        def leftHeight(root):
+                return heightFind(node.left) + heightFind(node.right) + 1
+        
+        def leftHeight(node):
             hgt = 0
-            while root:
+            while node:
                 hgt += 1
-                root = root.left
+                node = node.left
             return hgt
-
-        def rightHeight(root):
+        
+        def rightHeight(node):
             hgt = 0
-            while root:
+            while node:
                 hgt += 1
-                root = root.right
+                node = node.right
             return hgt
         
         return heightFind(root)
