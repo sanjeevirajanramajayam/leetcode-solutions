@@ -9,7 +9,7 @@ class Solution(object):
         compChar = '0'
         for i in letters:
             if found == False:
-                print(i, target, i < target)
+                # print(i, target, i < target)
                 if i > target:
                     compChar = i
                     found = True
