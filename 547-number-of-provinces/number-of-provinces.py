@@ -12,25 +12,20 @@ class Solution(object):
                 if isConnected[i][j] == 1:
                     if i != j:
                         adjList[i + 1].append(j + 1)
-        
-
 
         count = 0
         visited = [-1 for _ in range(len(isConnected) + 1)]
 
         def dfs(node):
             visited[node] = 1
-            # print(node)
-            # print(node, adjList[node])
             for i in adjList[node]:
                 if visited[i] == -1: 
                     dfs(i)
-                    print(i)
+                    # print(i)
 
         for i in range(1, len(isConnected) + 1):
             if visited[i] == -1:
                 dfs(i)
-                # print(i)
                 count += 1
         
         return count
