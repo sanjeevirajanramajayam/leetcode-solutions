@@ -32,9 +32,9 @@ class Solution(object):
                         if (row + dr, col + dc) not in visited and grid[row + dr][col + dc] == 1:
                             queue.append((row + dr, col + dc))
                             visited.add((row + dr, col + dc))
-            print(queue)
+            # print(queue)
             time += 1
-        print(time)
+        # print(time)
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] == 1 and (i, j) not in visited:
