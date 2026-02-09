@@ -25,7 +25,7 @@ class Solution(object):
             if l > r:
                 return None
             mid = (l + r) // 2
-            print(mid, l, mid - 1, mid + 1, r)
+            # print(mid, l, mid - 1, mid + 1, r)
             root = TreeNode(inOrder[mid])
             root.left = reconstruct(l, mid - 1)
             root.right = reconstruct(mid + 1, r)
