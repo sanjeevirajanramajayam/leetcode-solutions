@@ -4,38 +4,30 @@ class Solution(object):
         :type graph: List[List[int]]
         :rtype: List[int]
         """
-            
-        visited = [-1 for i in range(len(graph))]
-        safeNodes = [-1 for i in range(len(graph))]
-        pathAlong = [-1 for i in range(len(graph))]
 
-        def dfs(node):
-            visited[node] = 1
-            pathAlong[node] = 1
-
-            for i in graph[node]:
-                if visited[i] == -1:
-                    if dfs(i) == False:
-                        safeNodes[node] = 0
-                        return False
-                if pathAlong[i] == 1:
-                    safeNodes[node] = 0
-                    return False
-            
-            pathAlong[node] = 0
-            safeNodes[node] = 1
-            # print(node)
-            return True
-
-        for i in range(len(graph)):
-            if visited[i] == -1:
-                dfs(i)
-        
         res = []
+        graph_new = [[] for i in range(len(graph))]
+        inDegree = [0 for i in range(len(graph))]
+
+        for i in range(len(graph)):
+            for j in graph[i]:
+                graph_new[j].append(i)
+                inDegree[i] += 1
+        
+        queue = deque([])
         
         for i in range(len(graph)):
-            if safeNodes[i] == 1:
-                res.append(i)
+            if inDegree[i] == 0:
+                queue.append(i)
 
-        return res
-        # print(safeNodes)
+        topo_sort = []
+        
+        while queue:
+            node = queue.popleft()
+            topo_sort.append(node)
+            for i in graph_new[node]:
+                inDegree[i] -= 1
+                if inDegree[i] == 0:
+                    queue.append(i)
+
+        return sorted(topo_sort)
