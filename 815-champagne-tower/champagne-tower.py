@@ -14,7 +14,7 @@ class Solution(object):
                 quantityLeft = (glasses[i][j] - 1) / 2.0
                 if quantityLeft <= 0:
                     continue
-                print(quantityLeft)
+                # print(quantityLeft)
                 glasses[i + 1][j] += quantityLeft
                 glasses[i + 1][j + 1] += quantityLeft
         # print(glasses)
