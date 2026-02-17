@@ -4,7 +4,8 @@ class Solution:
         res = []
 
         def watch(ind, temp, k):
-
+            if k > 10 - ind:
+                return
             if ind == len(temp):
                 hour = int("".join(temp[:4]), 2)
                 minute = int("".join(temp[4:]), 2)
