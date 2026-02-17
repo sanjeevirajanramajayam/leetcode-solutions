@@ -16,7 +16,7 @@ class Solution(object):
 
         pq = deque([(0, src, 0)])
         distArray = [float('inf') for i in range(n)]
-        # distArray[0] = 0
+        distArray[src] = 0
 
         while pq:
             stops, node, dist = pq.popleft()
