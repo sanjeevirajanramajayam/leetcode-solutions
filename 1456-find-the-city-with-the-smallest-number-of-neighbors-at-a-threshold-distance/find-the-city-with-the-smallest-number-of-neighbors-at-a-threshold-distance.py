@@ -18,6 +18,8 @@ class Solution(object):
             visited = set()
             while minHeap:
                 dist, src = heapq.heappop(minHeap)
+                if distArray[src] < dist:
+                    continue
                 for endNode, wt in adjList[src]:
                     if distArray[src] + wt < distArray[endNode]:
                         distArray[endNode] = distArray[src] + wt
