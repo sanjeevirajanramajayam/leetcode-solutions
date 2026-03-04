@@ -30,7 +30,8 @@ class Solution(object):
             return len(visited)
         cur_min, node = float('inf'), -1
         for i in range(n):
-            if shortestDist(i) <= cur_min:
-                cur_min = shortestDist(i)
+            count = shortestDist(i)
+            if count <= cur_min:
+                cur_min = count
                 node = i
         return node
