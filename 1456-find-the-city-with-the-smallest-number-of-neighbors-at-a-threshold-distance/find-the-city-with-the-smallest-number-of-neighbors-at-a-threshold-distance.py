@@ -10,7 +10,7 @@ class Solution(object):
         for start, end, wt in edges:
             adjList[start].append((end, wt))
             adjList[end].append((start, wt))
-        print(adjList)
+        # print(adjList)
         def shortestDist(src):
             minHeap = [(0, src)]
             distArray = [float('inf') for i in range(n)]
