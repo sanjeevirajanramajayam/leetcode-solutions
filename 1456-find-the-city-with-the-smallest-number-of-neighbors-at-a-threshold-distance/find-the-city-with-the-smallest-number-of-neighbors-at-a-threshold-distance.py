@@ -6,32 +6,30 @@ class Solution(object):
         :type distanceThreshold: int
         :rtype: int
         """
-        adjList = [[] for i in range(n)]
-        for start, end, wt in edges:
-            adjList[start].append((end, wt))
-            adjList[end].append((start, wt))
-        # print(adjList)
-        def shortestDist(src):
-            minHeap = [(0, src)]
-            distArray = [float('inf') for i in range(n)]
-            distArray[src] = 0
-            visited = set()
-            while minHeap:
-                dist, src = heapq.heappop(minHeap)
-                if distArray[src] < dist:
-                    continue
-                for endNode, wt in adjList[src]:
-                    if distArray[src] + wt < distArray[endNode]:
-                        distArray[endNode] = distArray[src] + wt
-                        if distArray[endNode] <= distanceThreshold:
-                            visited.add(endNode)
-                        heapq.heappush(minHeap, (distArray[endNode], endNode))
-            # print(distArray)
-            return len(visited)
-        cur_min, node = float('inf'), -1
+        adjMatrix = [[float('inf') for i in range(n)] for i in range(n)]
+
         for i in range(n):
-            count = shortestDist(i)
-            if count <= cur_min:
-                cur_min = count
-                node = i
-        return node
+            adjMatrix[i][i] = 0
+
+        for i in range(len(edges)):
+            start, end, wt = edges[i]
+            adjMatrix[start][end] = wt
+            adjMatrix[end][start] = wt
+        
+        for k in range(n):
+            for i in range(n):
+                for j in range(n):
+                    adjMatrix[i][j] = min(adjMatrix[i][j], adjMatrix[i][k] + adjMatrix[k][j])
+        
+        min_val = float('inf')
+        min_node = -1
+
+        for i in range(n):
+            count = 0
+            for j in range(n):
+                if adjMatrix[i][j] <= distanceThreshold:
+                    count += 1
+            if count <= min_val:
+                min_val = count
+                min_node = i
+        return min_node
