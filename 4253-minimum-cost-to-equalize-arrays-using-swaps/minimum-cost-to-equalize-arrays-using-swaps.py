@@ -27,7 +27,7 @@ class Solution(object):
         for i in freqMapAll:
             freq1 = freqMap1.get(i, 0)
             freq2 = freqMap2.get(i, 0)
-            print(freq1, freq2)
+            # print(freq1, freq2)
             if freq1 != freq2:
                 needed = (freq2 + freq1) / 2
                 ops += abs(needed - freq1) 
