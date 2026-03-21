@@ -12,9 +12,9 @@ class Solution(object):
 
         while l < r:
             for i in range(y, y + k):
-                print(grid[l][y], grid[r][y])
+                # print(grid[l][y], grid[r][y])
                 grid[l][i], grid[r][i] = grid[r][i], grid[l][i]
-                print(grid[l][y], grid[r][y])
+                # print(grid[l][y], grid[r][y])
             l += 1
             r -= 1 
         
