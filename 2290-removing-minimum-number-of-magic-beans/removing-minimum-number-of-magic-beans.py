@@ -1,6 +1,6 @@
 class Solution:
     def minimumRemoval(self, beans: List[int]) -> int:
-        beans = sorted(beans)
+        beans.sort()
         prefixSum = [0 for i in range(len(beans) + 1)]
 
         for i in range(len(beans)):
