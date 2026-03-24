@@ -5,7 +5,7 @@ class Solution:
             hash[t % 60] = hash.get(t % 60, 0) + 1
 
         count = 0
-        print(hash)
+        # print(hash)
         visited = set()
         for rem in hash:
             if rem in visited:
