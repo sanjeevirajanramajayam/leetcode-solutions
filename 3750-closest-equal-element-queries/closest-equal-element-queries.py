@@ -17,7 +17,7 @@ class Solution:
                     low = mid + 1
             return -1
         
-        print(freqMap)
+        # print(freqMap)
         ans = []
         for i in queries:
             arr = freqMap[nums[i]]
@@ -30,7 +30,7 @@ class Solution:
             left_ind = (j - 1 + n) % n
             right_ind = (j + 1) % n
             diff = float('inf')
-            print(left_ind, right_ind, abs(arr[j] - arr[left_ind]), abs(arr[j] - arr[right_ind]), len(nums) -  abs(arr[j] - arr[left_ind]), len(nums) -  abs(arr[j] - arr[right_ind]))
+            # print(left_ind, right_ind, abs(arr[j] - arr[left_ind]), abs(arr[j] - arr[right_ind]), len(nums) -  abs(arr[j] - arr[left_ind]), len(nums) -  abs(arr[j] - arr[right_ind]))
             diff = min(diff,abs(arr[j] - arr[left_ind]), abs(arr[j] - arr[right_ind]), len(nums) -  abs(arr[j] - arr[left_ind]), len(nums) -  abs(arr[j] - arr[right_ind]))
             ans.append(diff)
         return ans
