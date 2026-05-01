@@ -1,21 +1,17 @@
-class Solution(object):
-    def maxProduct(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        suffix = 1
-        prefix = 1
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
         maxProd = float('-inf')
+        prod = 1
+        suffix = 1
         for i in range(len(nums)):
-            prefix *= nums[i]
-            j = len(nums) - 1 - i
-            suffix *= nums[j]
-            maxProd = max(maxProd, suffix, prefix)
+            prod *= nums[i]
+            suffix *= nums[len(nums) - 1 - i]
+            # print(prod, suffix)
+            maxProd = max(maxProd, prod, suffix)
+
+            if prod == 0:
+                prod = 1
+            
             if suffix == 0:
                 suffix = 1
-            if prefix == 0:
-                prefix = 1
         return maxProd
-            
-        
