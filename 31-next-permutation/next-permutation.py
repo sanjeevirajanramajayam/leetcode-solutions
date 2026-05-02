@@ -1,34 +1,26 @@
-class Solution(object):
-    def nextPermutation(self, nums):
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
         """
-        :type nums: List[int]
-        :rtype: None Do not return anything, modify nums in-place instead.
+        Do not return anything, modify nums in-place instead.
         """
-        def reverse(start, end, array):
-            while start < end:
-                temp = array[start]
-                array[start] = array[end]
-                array[end] = temp
-                start += 1
-                end -= 1
-                
-        ind = -1
-        for i in range(len(nums) - 2, -1, -1):
-            if nums[i] < nums[i + 1]:
-                ind = i
-                break
-        
-        if ind == -1:
-            reverse(0, len(nums) - 1, nums)
+        if len(nums) == 1:
             return
-        
-        for i in range(len(nums) - 1, -1, -1):
-            if nums[i] > nums[ind]:
+        i = len(nums) - 1
+        while i >= 0 and nums[i] <= nums[i - 1]:
+            i -= 1
+        # print(i, nums[i])
+        if i == 0:
+            nums.reverse()
+            # print(nums)
+            return
+        prevPivot = i - 1
+        pivot = i
+        for i in range(len(nums) - 1, pivot - 1, -1):
+            # print(nums[i], nums[prevPivot])
+            if nums[i] > nums[prevPivot]:
                 temp = nums[i]
-                nums[i] = nums[ind]
-                nums[ind] = temp
+                nums[i] = nums[prevPivot]
+                nums[prevPivot] = temp
+                nums[prevPivot + 1:] = nums[prevPivot + 1:][::-1]
                 break
-
-
         
-        reverse(ind + 1, len(nums) - 1, nums)
