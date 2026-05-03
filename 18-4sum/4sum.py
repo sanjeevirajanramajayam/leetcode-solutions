@@ -1,15 +1,27 @@
 class Solution:
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
-        ans = set()
+        nums.sort()
+        ans = []
         for i in range(len(nums)):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
             for j in range(i + 1, len(nums)):
-                hash = set()
-                for k in range(j + 1, len(nums)):
-                    if -(nums[i] + nums[j] + nums[k]) + target in hash:
-                        temp = [nums[i], nums[j], nums[k], -(nums[i] + nums[j] + nums[k]) + target]
-                        temp.sort()
-                        ans.add(tuple(temp))
+                if j > i + 1 and nums[j] == nums[j - 1]:
+                    continue
+                l = j + 1
+                r = len(nums) - 1
+                while l < r:
+                    fourSum = nums[i] + nums[j] + nums[l] + nums[r]
+                    if fourSum > target:
+                        r -= 1
+                    elif fourSum < target:
+                        l += 1
                     else:
-                        hash.add(nums[k])
-        
-        return list(ans)
+                        ans.append([nums[i], nums[j], nums[l], nums[r]])
+                        prevL = l
+                        while l < len(nums) and nums[l] == nums[prevL] :
+                            l += 1
+                        prevR = r
+                        while r >= 0 and nums[r] == nums[prevR] :
+                            r -= 1
+        return ans
