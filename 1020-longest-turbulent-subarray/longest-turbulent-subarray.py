@@ -15,7 +15,7 @@ class Solution:
         start = None
         maxStrk = float('-inf')
         for i in range(len(temp)):
-            print(strk, temp[i])
+            # print(strk, temp[i])
             if start == None and temp[i] != -1:
                 start = temp[i]
                 strk +=1
