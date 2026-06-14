@@ -14,7 +14,7 @@ class Solution:
         visited = set()
 
         def fn(ind, currK, currSum):
-            if currK == 1:
+            if currK == 0:
                 return True
 
             if currSum == target:
