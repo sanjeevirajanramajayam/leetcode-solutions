@@ -6,21 +6,22 @@
 #         self.right = right
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        def preorder(root):
+        def traverse(root):
             if root == None:
                 return 0
             
-            left = preorder(root.left)
-            right = preorder(root.right)
+            left = traverse(root.left)
+            right = traverse(root.right)
 
             if left is False or right is False:
                 return False
 
-            left += 1
-            right += 1
-
             if abs(left - right) > 1:
                 return False
             
-            return max(left, right)
-        return preorder(root) is not False
+            return 1 + max(left, right)
+        x = traverse(root)
+        if x is False:
+            return x
+        else:
+            return True
