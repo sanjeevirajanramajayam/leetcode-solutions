@@ -7,7 +7,7 @@
 class Solution:
     def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
         def fn(l, r):
-            print(l, r)
+            # print(l, r)
             if l>r:
                 return
             if l == r:
