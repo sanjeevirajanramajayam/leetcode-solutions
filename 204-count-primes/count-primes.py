@@ -8,7 +8,7 @@ class Solution:
         if n > 0:
             sieve[1] = 0
         
-        for i in range(2, n):
+        for i in range(2, int(sqrt(n) + 1)):
             if sieve[i] == 1:
                 for j in range(i * i, n, i):
                     sieve[j] = 0
