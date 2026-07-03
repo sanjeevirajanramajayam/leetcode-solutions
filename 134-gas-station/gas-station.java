@@ -4,7 +4,7 @@ class Solution {
         for (int i = 0; i < gas.length; i++) {
             arr[i] = gas[i] - cost[i];
         }
-        System.out.println(Arrays.toString(arr));
+        // System.out.println(Arrays.toString(arr));
         int sum = 0;
         int start = 0;
         int nSum = 0;
