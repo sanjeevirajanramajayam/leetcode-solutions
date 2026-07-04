@@ -10,15 +10,17 @@ class Solution {
         map.put('I', 1);
 
         int sum = 0;
-        int last_digit = 0;
         int prev = 0;
-        for (int idx = s.length() - 1; idx >= 0; idx--) {
-            last_digit = map.get(s.charAt(idx));
-            if (last_digit < prev)
-                sum -= last_digit;
-            else
-                sum += last_digit;
-            prev = last_digit;
+        
+        for (int i = s.length() - 1; i >= 0; i-- ) {
+            int val = map.get(s.charAt(i));
+            if (prev > val) {
+                sum -= val;
+            }
+            else {
+                sum += val;
+            }
+            prev = val;
         }
         return sum;
     }
