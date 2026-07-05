@@ -1,38 +1,25 @@
-class Solution { 
-    public int fn(int i, int j, List<List<Integer>> triangle, int n, Integer[][] memo) {
-        if (i < n) {
-            if (j < triangle.get(i).size()) {
-                
-                if (memo[i][j] != null) {
-                    return memo[i][j];
-                }
-
-
-                int mini1 = Integer.MAX_VALUE;
-                int mini2 = Integer.MIN_VALUE;
-
-                mini1 = fn(i + 1, j, triangle, n, memo);
-                mini2 = fn(i + 1, j + 1, triangle, n, memo);
-
-                int mini3 = Math.min(mini1, mini2);
-                memo[i][j] = triangle.get(i).get(j) + mini3;
-                return triangle.get(i).get(j) + mini3;
-                
+class Solution {
+    int fn(int row, int col, List<List<Integer>> triangle, int ROWS, Integer[][] memo) {
+            // System.out.println(row + " " + col);
+            int i = row;
+            int j = col;
+            if (memo[i][j] != null) {
+                return memo[i][j];
+            }
+            if (row + 1 == ROWS) {
+                memo[i][j] = triangle.get(row).get(col);
+                return triangle.get(row).get(col);
             }
             else {
-                return 0;
+                int a = triangle.get(row).get(col) + fn(row + 1, col, triangle, ROWS, memo);
+                int b = triangle.get(row).get(col) + fn(row + 1, col + 1, triangle, ROWS, memo);
+                memo[i][j] = Math.min(a, b);
+                return Math.min(a, b);
             }
         }
-        else {
-            return 0;
-        }
-    }
     public int minimumTotal(List<List<Integer>> triangle) {
+        int ROWS = triangle.size();
         Integer[][] memo = new Integer[triangle.size()][triangle.size()];
-        // for (int[] a : memo) {
-        //     Arrays.fill(a, -1);
-        // }
-        // System.out.println(Arrays.deepToString(memo));
-        return fn(0, 0, triangle, triangle.size(), memo);
+        return fn(0, 0, triangle, ROWS, memo);
     }
 }
