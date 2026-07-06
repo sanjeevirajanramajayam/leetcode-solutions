@@ -27,7 +27,7 @@ public class Codec {
             ad.offer(node.left);
             ad.offer(node.right);
         }
-        System.out.println(sb.toString());
+        // System.out.println(sb.toString());
         return sb.toString();
     }
 
@@ -39,7 +39,7 @@ public class Codec {
         Queue<TreeNode> queue = new LinkedList<>();
 
         String[] strList = data.split(",");
-        System.out.println(Arrays.deepToString(strList));
+        // System.out.println(Arrays.deepToString(strList));
         List<String> strLis = Arrays.asList(strList);
         Iterator<String> it = strLis.iterator();
         TreeNode root = new TreeNode(Integer.parseInt(it.next()));
