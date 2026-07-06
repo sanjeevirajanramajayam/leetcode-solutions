@@ -3,9 +3,10 @@ class Solution {
         StringBuilder sb = new StringBuilder();
         while (n > 0) {
             n--;
-            int r = n % 26;
-            sb.append((char)(65 + (r)));
-            n = n / 26;
+            int rem = n % 26;
+            sb.append((char)('A' + rem));
+            n -= rem;
+            n /= 26;
         }
         return sb.reverse().toString();
     }
