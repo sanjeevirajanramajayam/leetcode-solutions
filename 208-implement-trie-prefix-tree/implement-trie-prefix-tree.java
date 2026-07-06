@@ -2,7 +2,6 @@ class TrieNode {
     TrieNode[] children = new TrieNode[26];
     boolean isEnd = false;
 }
-
 class Trie {
     TrieNode root;
     public Trie() {
@@ -10,47 +9,43 @@ class Trie {
     }
     
     public void insert(String word) {
-        
         TrieNode curr = this.root;
-        for (Character c: word.toCharArray()) {
-            if (curr.children[(c - 97)] == null) {
-                curr.children[(c - 97)] = new TrieNode();
-            } 
-            curr = curr.children[(c - 97)];
-
+        for (Character c : word.toCharArray()) {
+            if (curr.children[c - 97] == null) {
+                curr.children[c - 97] = new TrieNode();
+            }
+            curr = curr.children[c - 97];
         }
         curr.isEnd = true;
     }
     
     public boolean search(String word) {
         TrieNode curr = this.root;
-        for (Character c: word.toCharArray()) {
-            if (curr.children[(c - 97)] != null) {
-                curr = curr.children[(c - 97)];
-            } 
-            else {
+        for (Character c : word.toCharArray()) {
+            if (curr.children[c - 97] == null) {
                 return false;
             }
+            curr = curr.children[c - 97];
         }
+        // curr.isEnd = true;
         if (curr.isEnd == true) {
             return true;
         }
-        else {
-            return false;
-        }
-
+        return false;
     }
     
     public boolean startsWith(String prefix) {
         TrieNode curr = this.root;
-        for (Character c: prefix.toCharArray()) {
-            if (curr.children[(c - 97)] != null) {
-                curr = curr.children[(c - 97)];
-            } 
-            else {
+        for (Character c : prefix.toCharArray()) {
+            if (curr.children[c - 97] == null) {
                 return false;
             }
+            curr = curr.children[c - 97];
         }
+        // curr.isEnd = true;
+        // if (curr.isEnd == true) {
+        //     return true;
+        // }
         return true;
     }
 }
