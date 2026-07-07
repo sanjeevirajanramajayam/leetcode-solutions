@@ -10,9 +10,8 @@ class Solution(object):
         :type root: Optional[TreeNode]
         :rtype: bool
         """
-        def sameTree(p, q):
+        def isSame(p, q):
             if p == None or q == None:
                 return p == q
-            return p.val == q.val and sameTree(p.left, q.right) and sameTree(q.left, p.right)
-        
-        return sameTree(root.left, root.right)
+            return p.val == q.val and isSame(p.left, q.right) and isSame(p.right, q.left)
+        return isSame(root.left, root.right)
