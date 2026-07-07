@@ -14,21 +14,20 @@
  * }
  */
 class Solution {
-    List<String> a = new ArrayList<>();
-    public void build(TreeNode root, StringBuilder s) {
+    ArrayList<String> a = new ArrayList<>();
+    public void build(TreeNode root, StringBuilder temp) {
         if (root == null) {
             return;
         }
-        StringBuilder curr = new StringBuilder(s);
         if (root.left == null && root.right == null) {
-            this.a.add(curr.append(Integer.toString(root.val)).toString());
-            return;
+            this.a.add(new StringBuilder(temp).append(root.val).toString());
         }
-        build(root.left, new StringBuilder(curr).append(Integer.toString(root.val) + "->"));
-        build(root.right, new StringBuilder(curr).append(Integer.toString(root.val) + "->"));
+        build(root.left, new StringBuilder(temp).append(root.val + "->"));
+        build(root.right, new StringBuilder(temp).append(root.val + "->"));
+
     }
     public List<String> binaryTreePaths(TreeNode root) {
         build(root, new StringBuilder());
-        return a;
+        return this.a;
     }
 }
