@@ -1,45 +1,47 @@
 class Solution {
-    public int calculate(String s) {
-        Stack<Integer> st = new Stack<>();
+    public int calculate(String s2) {
         int currentNum = 0;
-        char sign = '+';
-        for (Character c: s.toCharArray()) {
-            if (c == ' ')
+        Character sign = '+';
+        Stack<Integer> s = new Stack<>();
+        for (Character c: s2.toCharArray()) {
+            if (c == ' ') {
                 continue;
+            }
             if (Character.isDigit(c)) {
                 currentNum = currentNum * 10 + (c - 48);
                 continue;
             }
-            else if (sign == '+') {
-                st.push(currentNum);
+            if (sign == '+') {
+                s.push(currentNum);
             }
             else if (sign == '-') {
-                st.push(-currentNum);
+                s.push(-currentNum);
             }
             else if (sign == '*') {
-                st.push(st.pop() * currentNum);
+                s.push(s.pop() * currentNum);
             }
-            else if (sign == '/') {
-                st.push(st.pop() / currentNum);
+            else {
+                s.push(s.pop() / currentNum);
             }
             currentNum = 0;
             sign = c;
         }
-
-        if (sign == '+') {
-            st.push(currentNum);
+        if (sign == '+'){
+            s.push(currentNum);
         }
         else if (sign == '-') {
-            st.push(-currentNum);
+            s.push(-currentNum);
         }
         else if (sign == '*') {
-            st.push(st.pop() * currentNum);
+            s.push(s.pop() * currentNum);
         }
-        else if (sign == '/') {
-            st.push(st.pop() / currentNum);
+        else {
+            s.push(s.pop() / currentNum);
         }
-
-        // System.out.println(st);
-        return st.stream().mapToInt(Integer::intValue).sum();
+        int res = 0;
+        for (int x : s) {
+            res += x;
+        }
+        return res;
     }
 }
