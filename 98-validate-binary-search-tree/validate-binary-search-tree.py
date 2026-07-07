@@ -10,12 +10,12 @@ class Solution(object):
         :type root: Optional[TreeNode]
         :rtype: bool
         """
-        
-        def isValid(root, minVal, maxVal):
-            if root == None:
+        def v(root, l, r):
+            if not root:
                 return True
-            if root.val >= maxVal or root.val <= minVal:
+
+            if root.val <= l or root.val >= r:
                 return False
-            return isValid(root.right, root.val, maxVal) and isValid(root.left, minVal, root.val)
-        
-        return isValid(root, float('-inf'), float('inf'))
+            
+            return v(root.left, l, root.val) and v(root.right, root.val, r)
+        return v(root, float('-inf'), float('inf'))
