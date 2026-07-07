@@ -14,18 +14,29 @@ public class Codec {
         if (root == null) {
             return "";
         }
-        Queue<TreeNode> ad = new LinkedList<>();
-        ad.offer(root);
+        ArrayDeque<TreeNode> q = new ArrayDeque<>();
+        q.offer(root);
         StringBuilder sb = new StringBuilder();
-        while (!ad.isEmpty()) {
-            TreeNode node = ad.poll();
-            if (node == null) {
-                sb.append("#,");
+        while (!(q.isEmpty())) {
+            TreeNode t = q.poll();
+            if (t.val == -1001) {
+                sb.append("#" + ",");
                 continue;
             }
-            sb.append(node.val + ",");
-            ad.offer(node.left);
-            ad.offer(node.right);
+            sb.append(t.val + ",");
+            if (t.left == null){
+                q.offer(new TreeNode(-1001));
+            }
+            else {
+                q.offer(t.left);
+            }
+
+            if (t.right == null){
+                q.offer(new TreeNode(-1001));
+            }
+            else {
+                q.offer(t.right);
+            }
         }
         // System.out.println(sb.toString());
         return sb.toString();
@@ -36,35 +47,26 @@ public class Codec {
         if (data == "") {
             return null;
         }
-        Queue<TreeNode> queue = new LinkedList<>();
-
         String[] strList = data.split(",");
-        // System.out.println(Arrays.deepToString(strList));
-        List<String> strLis = Arrays.asList(strList);
-        Iterator<String> it = strLis.iterator();
-        TreeNode root = new TreeNode(Integer.parseInt(it.next()));
-        queue.offer(root);
-        while (!queue.isEmpty()) {
-            // String s = it.next();
-            TreeNode node = queue.poll();
-
-            String left = it.next();
-            String right = it.next();
-
-            if (left.equals("#")) {
-
+        int i = 0;
+        ArrayDeque<TreeNode> q = new ArrayDeque<>();
+        TreeNode root = new TreeNode(Integer.parseInt(strList[i]));
+        q.offer(root);
+        while (!q.isEmpty()) {
+            TreeNode t = q.poll();
+            if (strList[++i].equals("#")) {
+                t.left = null;
             }
             else {
-                node.left = new TreeNode(Integer.parseInt(left));
-                queue.offer(node.left);
+                t.left = new TreeNode(Integer.parseInt(strList[i]));
+                q.offer(t.left);
             }
-
-            if (right.equals("#")) {
-
+            if (strList[++i].equals("#")) {
+                t.right = null;
             }
             else {
-                node.right = new TreeNode(Integer.parseInt(right));
-                queue.offer(node.right);
+                t.right = new TreeNode(Integer.parseInt(strList[i]));
+                q.offer(t.right);
             }
         }
         return root;
