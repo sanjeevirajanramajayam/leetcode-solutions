@@ -4,6 +4,74 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+class BSTIteratorF(object):
+    def __init__(self, root):
+        """
+        :type root: Optional[TreeNode]
+        """
+        self.stack = []
+        curr = root
+        while curr:
+            self.stack.append(curr)
+            curr = curr.left
+        # print([x.val for x in self.stack])
+
+    def next(self):
+        """
+        :rtype: int
+        """
+        currNode = self.stack.pop()
+        curr = currNode.right
+        if curr:
+            self.stack.append(curr)
+        while curr and curr.left:
+            self.stack.append(curr.left)
+            curr = curr.left
+        # print([x.val for x in self.stack])
+        return currNode.val
+        
+            
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        return self.stack != []
+
+class BSTIteratorR(object):
+    def __init__(self, root):
+        """
+        :type root: Optional[TreeNode]
+        """
+        self.stack = []
+        curr = root
+        while curr:
+            self.stack.append(curr)
+            curr = curr.right
+        # print([x.val for x in self.stack])
+
+    def next(self):
+        """
+        :rtype: int
+        """
+        currNode = self.stack.pop()
+        curr = currNode.left
+        if curr:
+            self.stack.append(curr)
+        while curr and curr.right:
+            self.stack.append(curr.right)
+            curr = curr.right
+        # print([x.val for x in self.stack])
+        return currNode.val
+        
+            
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        return self.stack != []
+
 class Solution(object):
     def findTarget(self, root, k):
         """
@@ -11,51 +79,19 @@ class Solution(object):
         :type k: int
         :rtype: bool
         """
-        class BSTIterator:
-            def __init__(self, root, reverse):
-                self.root = root
-                self.stack = [root]
-                self.reverse = reverse
-                curr = root
-                if not self.reverse:
-                    while root and root.left:
-                        self.stack.append(root.left)
-                        root = root.left
-                else:
-                    while root and root.right:
-                        self.stack.append(root.right)
-                        root = root.right
-            
-            def next(self):
-                node = self.stack.pop()
-                if not self.reverse:
-                    if node.right:
-                        rightNode = node.right
-                        self.stack.append(rightNode)
-                        while rightNode and rightNode.left:
-                            self.stack.append(rightNode.left)
-                            rightNode = rightNode.left
-                else:
-                    if node.left:
-                        leftNode = node.left
-                        self.stack.append(leftNode)
-                        while leftNode and leftNode.right:
-                            self.stack.append(leftNode.right)    
-                            leftNode = leftNode.right             
-                return node.val
-        l = BSTIterator(root, False)
-        r = BSTIterator(root, True)
+        bstf = BSTIteratorF(root)
+        bstr = BSTIteratorR(root)
 
-        lPointer = l.next()
-        rPointer = r.next()
+        lp = bstf.next()
+        rp = bstr.next()
 
-        while lPointer < rPointer:
-            sumP = lPointer + rPointer
+        while lp < rp:
+            sumP = lp + rp
             if sumP == k:
                 return True
-            elif sumP > k:
-                rPointer = r.next()
+            if sumP > k:
+                rp = bstr.next()
             else:
-                lPointer = l.next()
+                lp = bstf.next()
         return False
 
