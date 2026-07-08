@@ -11,22 +11,22 @@ class Solution(object):
         :type postorder: List[int]
         :rtype: Optional[TreeNode]
         """
-        def buildRoot(inStart, inEnd, postStart, postEnd, inMap):
-            if inStart > inEnd or postStart > postEnd:
-                return None
+        
+        hashmap = {}
+        for i in range(len(inorder)):
+            hashmap[inorder[i]] = i  
+        
+        def fn(ins, ends, ps, pe):
+            if (ins > ends or ps > pe):
+                return
             
-            root = TreeNode(postorder[postEnd])
-
-            inRoot = inMap[postorder[postEnd]]
-            numsRight = inEnd - inRoot 
-
-            root.right = buildRoot(inRoot + 1, inEnd,postEnd - numsRight,  postEnd - 1, inMap)
-            root.left = buildRoot(inStart, inRoot -1,postStart, postEnd - numsRight - 1, inMap)
-
+            root = TreeNode(postorder[pe])
+            inIdx = hashmap[postorder[pe]]
+            rightSize = ends - inIdx
+            root.left = fn(ins, inIdx - 1, ps, pe - rightSize - 1)
+            root.right = fn(inIdx + 1, ends, pe - rightSize, pe - 1)
             return root
 
-        inMap = {}
-        for i in range(len(inorder)):
-            inMap[inorder[i]] = i
+        return fn(0, len(inorder) - 1, 0, len(inorder) - 1)
 
-        return buildRoot(0, len(inorder) - 1, 0, len(postorder) - 1, inMap)
+
