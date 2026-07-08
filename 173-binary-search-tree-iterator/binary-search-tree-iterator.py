@@ -10,32 +10,33 @@ class BSTIterator(object):
         """
         :type root: Optional[TreeNode]
         """
-        self.root = root
-        self.stack = [self.root]
-        rootNode = self.root
-        while rootNode and rootNode.left:
-            self.stack.append(rootNode.left)
-            rootNode = rootNode.left
+        self.stack = []
+        curr = root
+        while curr:
+            self.stack.append(curr)
+            curr = curr.left
+        # print([x.val for x in self.stack])
+
     def next(self):
         """
         :rtype: int
         """
+        currNode = self.stack.pop()
+        curr = currNode.right
+        if curr:
+            self.stack.append(curr)
+        while curr and curr.left:
+            self.stack.append(curr.left)
+            curr = curr.left
         # print([x.val for x in self.stack])
-        node = self.stack.pop()
-        if node.right:
-            rightNode = node.right
-            self.stack.append(rightNode)
-            while rightNode and rightNode.left:
-                self.stack.append(rightNode.left)
-                rightNode = rightNode.left
-        # print([x.val for x in self.stack])
-        return node.val
+        return currNode.val
+        
+            
 
     def hasNext(self):
         """
         :rtype: bool
         """
-        # print([x.val for x in self.stack])
         return self.stack != []
 
 
