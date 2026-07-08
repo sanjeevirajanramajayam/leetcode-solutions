@@ -13,27 +13,31 @@ class Solution(object):
         :type q: TreeNode
         :rtype: TreeNode
         """
-
-        def preOrderTraversal(node):
-            if node == None:
+        def fn(root):
+            if root == None:
                 return None
-            
-            if node.val == p.val:
-                return node
-            
-            if node.val == q.val:
-                return node
-            
-            lh = preOrderTraversal(node.left)
-            rh = preOrderTraversal(node.right)
 
-            if not lh:
-                return rh
+            if root.val == p.val:
+                return root
             
-            if not rh:
-                return lh
+            if root.val == q.val:
+                return root
+
+            left = fn(root.left)
+            right = fn(root.right)
+
+            if left != None and right != None:
+                return root
+
+            if left != None:
+                return left
             
-            return node
+            if right != None:
+                return right
+        return fn(root)
+
+            
+
+
+
         
-        lca = preOrderTraversal(root)
-        return lca
