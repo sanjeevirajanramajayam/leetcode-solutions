@@ -13,14 +13,15 @@ class Solution(object):
         :type q: TreeNode
         :rtype: TreeNode
         """
-        if root == None:
-            return None
-        
-        while root != None:
-            if p.val > root.val and q.val > root.val:
-                root = root.right
-            elif p.val < root.val and q.val < root.val:
-                root = root.left
+        def fn(root, lb, rb):
+            target = root.val
+            if p.val < target and q.val < target:
+                return fn(root.left, lb, root.val)
+            elif p.val > target and q.val > target:
+                return fn(root.right, root.val, rb)
             else:
                 return root
-        return None
+        return fn(root, float('-inf'), float('inf'))
+            
+
+            
