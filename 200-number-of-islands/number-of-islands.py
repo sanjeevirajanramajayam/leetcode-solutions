@@ -1,39 +1,27 @@
-class Solution(object):
-    def numIslands(self, grid):
-        """
-        :type grid: List[List[str]]
-        :rtype: int
-        """
-        visited = set([])
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
         ROWS = len(grid)
         COLS = len(grid[0])
-        # distinctIslands = set()
-        count = 0
-        
-        def bfs(row, col):
-            queue = deque([(row, col)])
-            visited.add((row, col))
-            directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-            # pathList = [(0, 0)]
-            # base = (row, col)
+        visited = set()
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        def bfs(i, j):
+            queue = deque([(i, j)])
+
             while queue:
-                cRow, cCol = queue.popleft()
-                for dRow, dCol in directions:
-                    nRow, nCol = cRow + dRow, cCol + dCol
-                    if nRow >= 0 and nRow < ROWS and nCol >= 0 and nCol < COLS:
-                        if (nRow, nCol) not in visited and grid[nRow][nCol] == "1":
-                            queue.append((nRow, nCol))
-                            visited.add((nRow, nCol))
-                            # print(nRow, nCol)
-                            # pathList.append((nRow - base[0], nCol - base[1]))
-            # print(pathList)
-            # distinctIslands.add(tuple(pathList))                 
-                
-        
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if (i, j) not in visited and grid[i][j] == "1":
+                x, y = queue.popleft()
+                for dx, dy in directions:
+                    nx, ny = x + dx, y + dy
+                    if nx >= 0 and nx < ROWS and ny >= 0 and ny < COLS:
+                        if grid[nx][ny] == '1' and (nx, ny) not in visited:
+                            queue.append((nx, ny))
+                            visited.add((nx, ny))
+        cnt = 0
+        for i in range(ROWS):
+            for j in range(COLS):
+                if (i, j) not in visited and grid[i][j] == '1':
+                    # print(i, j
+                    visited.add((i, j))
+
                     bfs(i, j)
-                    count += 1
-        
-        return count
+                    cnt += 1
+        return cnt
