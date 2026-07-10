@@ -1,18 +1,17 @@
 class Solution:
     def longestPalindrome(self, s: str) -> int:
         hashmap = {}
-        for i in range(len(s)):
-            hashmap[s[i]] = hashmap.get(s[i], 0) + 1
-        evenSum = 0
-        picked = False
-        maxOddSum = 0
-        # print(hashmap)
+        for i in s:
+            hashmap[i] = hashmap.get(i, 0) + 1
+        print(hashmap)
+        cnt = 0
+        isOdd = False
         for i in hashmap:
             if hashmap[i] % 2 == 0:
-                evenSum += hashmap[i]
+                cnt += hashmap[i] 
             else:
-                evenSum += hashmap[i] - 1
-                picked = True
-        if picked:
-            return evenSum + 1
-        return evenSum 
+                isOdd = True
+                cnt += (hashmap[i] - 1)
+        if isOdd:
+            cnt += 1
+        return cnt
