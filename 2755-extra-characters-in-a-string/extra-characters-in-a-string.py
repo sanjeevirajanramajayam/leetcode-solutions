@@ -1,19 +1,17 @@
 class Solution:
     def minExtraChar(self, s: str, dictionary: List[str]) -> int:
         dictionary = set(dictionary)
-        ans = float('inf')
+        n = len(s)
         @cache
-        def fn(ind, score):
-            nonlocal ans
-            if ind == len(s):
-                ans = min(ans, score)
-            temp = ""
-            for i in range(ind, len(s)):
-                temp += s[i]
-                if temp in dictionary:
-                    fn(i + 1, score)
-                else:
-                    fn(i + 1, score + (i - ind) + 1)
+        def fn(ind):
+            if ind == n:
+                return 0
+            
+            mini = 1 + fn(ind + 1)
+            for i in range(ind, n):
+                if s[ind:i + 1] in dictionary:
+                    mini = min( mini , fn(i + 1))
 
-        fn(0, 0)
-        return ans
+            return mini
+
+        return fn(0)
