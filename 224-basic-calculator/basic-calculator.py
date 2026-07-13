@@ -1,32 +1,38 @@
 class Solution:
     def calculate(self, s: str) -> int:
-        stack = []
         result = 0
-        sign = 1
         currentNum = 0
-        for ch in s:
-            if ch == ' ':
+        stack = []
+        sign = 1
+        for i in s:
+            if i == " ":
                 continue
-            if ch.isdigit():
-                currentNum = currentNum * 10 + int(ch)
+
+            if i.isdigit():
+                currentNum = currentNum * 10 + int(i)
                 continue
-            if ch == '+':
+
+            if i == "+":
                 result += currentNum * sign
                 sign = 1
-            elif ch == '-':
+            elif i == "-":
                 result += currentNum * sign
                 sign = -1
-            elif ch == '(':
+            elif i == "(":
                 stack.append(result)
                 stack.append(sign)
                 result = 0
                 sign = 1
-            else:
-                # print(ch)
+            elif i == ")":
                 result += currentNum * sign
                 result *= stack.pop()
                 result += stack.pop()
+                # result 
+                sign = 1
+            # print(result, i, sign, currentNum)
             currentNum = 0
+        # if sign == 1:
+        # print(currentNum, result)
         result += currentNum * sign
-        return result
 
+        return result 
