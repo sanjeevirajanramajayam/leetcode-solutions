@@ -1,33 +1,27 @@
-class Solution(object):
-    def canFinish(self, numCourses, prerequisites):
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: bool
-        """
-        adjList = [[] for i in range(numCourses)]
-
-        for startNode, endNode in (prerequisites):
+class Solution:
+    def canFinish(self, n: int, p: List[List[int]]) -> bool:
+        adjList = [[] for i in range(n)]
+        
+        for startNode, endNode in p:
             adjList[startNode].append(endNode)
         
-        visited = [0 for i in range(numCourses)] 
-        pathAlong = [0 for i in range(numCourses)] 
+        visited = [0] * n
+        dfsVisited = [0] * n
 
-        def dfs(node):
-            visited[node] = 1
-            pathAlong[node] = 1
-            for i in adjList[node]:
-                if not visited[i]:
-                    if not dfs(i):
-                        return False
-                if pathAlong[i] == 1:
+        def dfs(i):
+            visited[i] = 1
+            dfsVisited[i] = 1
+            for newNode in adjList[i]:
+                if visited[newNode] == 1 and dfsVisited[newNode] == 1:
                     return False
-            pathAlong[node] = 0
+                if visited[newNode] != 1:
+                    if not dfs(newNode):
+                        return False
+            dfsVisited[i] = 0
             return True
         
-        for i in range(numCourses):
-            if not visited[i]:
+        for i in range(n):
+            if visited[i] == 0: 
                 if not dfs(i):
                     return False
-        
         return True
