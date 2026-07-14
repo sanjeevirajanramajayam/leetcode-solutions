@@ -1,35 +1,24 @@
-class Solution(object):
-    def countPaths(self, n, roads):
-        """
-        :type n: int
-        :type roads: List[List[int]]
-        :rtype: int
-        """
-        adjList = [[] for i in range(n)]
-
-        for startNode, endNode, weight in roads:
-            adjList[startNode].append((endNode, weight))
-            adjList[endNode].append((startNode, weight))
-        
-        distArray = [ float('inf') for i in range(n)]
-        distArray[0] = 0
-        ways = [0 for i in range(n)]
+class Solution:
+    def countPaths(self, n: int, roads: List[List[int]]) -> int:
+        pq = [(0, 0)]
+        ways = [0] * n
         ways[0] = 1
-        pq = ([(0, 0)])
-
-        while pq:
-            dist, node = heapq.heappop(pq)
-            if dist > distArray[node]:
-                continue
-            for newNode, newDist in adjList[node]:
-                if dist + newDist < distArray[newNode]:
-                    distArray[newNode] = dist + newDist
-                    heapq.heappush(pq, (dist + newDist, newNode))
-                    ways[newNode] = ways[node]
-                elif dist + newDist ==  distArray[newNode]:
-                    ways[newNode] += ways[node]
-                
-                # print(node, newNode, ways)
+        dist = [float('inf')] * n
+        dist[0] = 0
+        adjList = [[] for i in range(n)]
+        for start, end, w in roads:
+            adjList[start].append((end, w))
+            adjList[end].append((start, w))
         
+        while pq:
+            dt, node = heapq.heappop(pq)
+            # print(dt, node)
+            for newNode, wt in adjList[node]:
+                if dt + wt < dist[newNode]:
+                    dist[newNode] = dt + wt
+                    ways[newNode] = ways[node]
+                    heapq.heappush(pq, (dist[newNode], newNode))
+                elif dt + wt == dist[newNode]:
+                    ways[newNode] += ways[node]
+        # print(ways)
         return ways[-1] % (10 ** 9 + 7)
-            
