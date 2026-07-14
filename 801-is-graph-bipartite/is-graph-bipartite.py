@@ -1,26 +1,18 @@
-class Solution(object):
-    def isBipartite(self, graph):
-        """
-        :type graph: List[List[int]]
-        :rtype: bool
-        """
-        visited = [-1] * len(graph)
-
-        def dfs(node, color):
-            visited[node] = color
-            for i in graph[node]:
-                if visited[i] == -1:
-                    if dfs(i, not color):
-                        return True
-                elif visited[i] == color:
-                    return True
-            return False
-        
-        for i in range(len(visited)):
-            if visited[i] == -1:
-                if dfs(i, 0):
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        visited = [-1 for i in range(len(graph))]
+        def dfs(i, color):
+            visited[i] = color
+            for endNode in graph[i]:
+                if visited[endNode] == color:
                     return False
-        
+                if visited[endNode] == -1:
+                    if not dfs(endNode, not color):
+                        return False
+            return True
+        for i in range(len(graph)):
+            if visited[i] == -1:
+                if not dfs(i, 0):
+                    return False
         return True
-
 
