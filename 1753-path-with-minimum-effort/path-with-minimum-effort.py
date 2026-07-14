@@ -1,29 +1,23 @@
-class Solution(object):
-    def minimumEffortPath(self, heights):
-        """
-        :type heights: List[List[int]]
-        :rtype: int
-        """
-
-        pq = ([(0, (0, 0))])
-        directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
-        ROWS = len(heights)
-        COLS = len(heights[0])
-        distMatrix = [[float('inf') for i in range(COLS)] for j in range(ROWS)]
-        # print(distMatrix)
-        distMatrix[0][0] = 0
-        
+class Solution:
+    def minimumEffortPath(self, h: List[List[int]]) -> int:
+        ROWS = len(h) 
+        COLS = len(h[0])
+        pq = [(0, 0, 0)]
+        visited = set([(0, 0)])
+        distArray = [[float('inf') for i in range(COLS)] for i in range(ROWS)]
+        # print(distArray)
+        distArray[0][0] = 0
+        directions = [(1, 0), ( 0, 1), (-1, 0), (0, -1)]
         while pq:
-            maxDiff, (row, col) = heapq.heappop(pq)
-            if maxDiff > distMatrix[row][col]:
+            maxDiff, i, j  = heapq.heappop(pq)
+            if maxDiff > distArray[i][j]:
                 continue
-            for nrow, ccol in directions:
-                cRow, cCol = row + nrow, col + ccol
-                if cRow >= 0 and cRow < ROWS and cCol >= 0 and cCol < COLS:
-                    diff = max(maxDiff, abs(heights[cRow][cCol] - heights[row][col]))
-                    if diff < distMatrix[cRow][cCol]:
-                        distMatrix[cRow][cCol] = diff
-                        heapq.heappush(pq, (diff, (cRow, cCol)))
-            # print(pq)
-        # print(distMatrix)
-        return distMatrix[-1][-1]    
+            for dx, dy in directions:
+                nx = i + dx
+                ny = j + dy
+                if nx >= 0 and nx < ROWS and ny >= 0 and ny < COLS:
+                    diff = max(distArray[i][j], abs(h[nx][ny] - h[i][j]))
+                    if diff < distArray[nx][ny]:
+                        distArray[nx][ny] = diff
+                        heapq.heappush(pq, (diff, nx, ny))
+        return distArray[ROWS - 1][COLS - 1]
