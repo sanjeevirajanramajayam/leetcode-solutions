@@ -2,24 +2,24 @@ class Solution:
     def countPaths(self, n: int, roads: List[List[int]]) -> int:
         ways = [0] * n
         ways[0] = 1
-        # queue = deque([])
         pq = [(0, 0)]
         adjList = [[] for i in range(n)]
-        for s, e, dt in roads:
-            adjList[s].append((e, dt))
-            adjList[e].append((s, dt))
-        dist = [float('inf')] * n
+        dist = [float('inf') for i in range(n)]
         dist[0] = 0
+        for s, e, t in roads:
+            adjList[s].append((e, t))
+            adjList[e].append((s, t))
+
         while pq:
-            time, u = heapq.heappop(pq)
-            if time > dist[u]:
+            dt, node = heapq.heappop(pq)
+            if dt > dist[node]:
                 continue
-            for nnode, dt in adjList[u]:
-                if dist[u] + dt < dist[nnode]:
-                    dist[nnode] = dist[u] + dt
+            for nnode, wt in adjList[node]:
+                if dist[node] + wt < dist[nnode]:
+                    dist[nnode] = dist[node] + wt
+                    ways[nnode] = ways[node]
                     heapq.heappush(pq, (dist[nnode], nnode))
-                    ways[nnode] = ways[u]
-                elif dist[u] + dt == dist[nnode]:
-                    ways[nnode] += ways[u]
-        # print(ways, dist)
-        return ways[n - 1] % (10 ** 9 + 7)
+                elif dist[node] + wt == dist[nnode]:
+                    ways[nnode] += ways[node]
+        # print(ways)
+        return ways[-1] % ((10 ** 9) + 7)
