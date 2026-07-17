@@ -1,36 +1,22 @@
-class Solution(object):
-    def findOrder(self, numCourses, prerequisites):
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: List[int]
-        """
-        adjList = [[] for i in range(numCourses)]
-        inDegree = [0 for i in range(numCourses)] 
-
-        for startNode, endNode in (prerequisites):
-            adjList[endNode].append(startNode)
-            inDegree[startNode] += 1
-        
-        topo_sort = []
-
+class Solution:
+    def findOrder(self, n: int, p: List[List[int]]) -> List[int]:
+        adjList = [[] for i in range(n)]
+        inorder = [0] * n
         queue = deque([])
-
-        for i in range(len(inDegree)):
-            if inDegree[i] == 0:
+        for sn, en in p:
+            adjList[en].append(sn)
+            inorder[sn] += 1
+        for i in range(len(adjList)):
+            if inorder[i] == 0:
                 queue.append(i)
-
+        ans = []
         while queue:
             node = queue.popleft()
-            topo_sort.append(node)
-            for i in adjList[node]:
-                inDegree[i] -= 1
-                if inDegree[i] == 0:
-                    queue.append(i)
-        
-        if len(topo_sort) != numCourses:
+            ans.append(node)
+            for nn in adjList[node]:
+                inorder[nn] -= 1
+                if inorder[nn] == 0:
+                    queue.append(nn)
+        if len(ans) != n:
             return []
-        
-        return topo_sort
-
-        
+        return ans
