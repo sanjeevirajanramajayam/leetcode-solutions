@@ -11,12 +11,13 @@ class Solution:
         """
         prev = None
         def fn(root):
+            nonlocal prev
             if root == None:
                 return
-            nonlocal prev
             fn(root.right)
             fn(root.left)
-            root.left = None
             root.right = prev
+            # root.right = prev
+            root.left = None
             prev = root
-        return fn(root)
+        fn(root)
