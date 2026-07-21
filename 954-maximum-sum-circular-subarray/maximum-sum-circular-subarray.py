@@ -1,25 +1,21 @@
 class Solution:
     def maxSubarraySumCircular(self, nums: List[int]) -> int:
-        maxAns = float('-inf')
-        currSum = 0
-        cnt = 0
+        maxSum = float('-inf')
+        minSum = float('inf')
+        minCurrSum = 0
+        maxCurrSum = 0
+
         for i in nums:
-            currSum += i
-            if currSum > maxAns:
-                maxAns = currSum
-            if currSum < 0:
-                currSum = 0
-        
-        minAns = float('inf')
-        currSum = 0
-        cnt = 0
-        for i in nums:
-            currSum += i
-            if currSum < minAns:
-                minAns = currSum
-            if currSum > 0:
-                currSum = 0
-        # print(maxAns, minAns)
-        if (sum(nums) - minAns) == 0:
-            return maxAns
-        return max(maxAns, sum(nums) - minAns)
+            minCurrSum += i
+            maxCurrSum += i
+            maxSum = max(maxSum, maxCurrSum)
+            minSum = min(minSum, minCurrSum)
+            if maxCurrSum < 0:
+                maxCurrSum = 0
+            if minCurrSum > 0:
+                minCurrSum = 0
+        # print(maxSum, minSum)
+        if (sum(nums) - minSum) == 0:
+            return maxSum
+        return max(maxSum, (sum(nums) - minSum))
+            
