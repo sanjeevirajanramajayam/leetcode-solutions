@@ -4,12 +4,13 @@ class Solution:
         l = 0
         r = len(people) - 1
         cnt = 0
+        # print(people)
         while l <= r:
             if people[l] + people[r] <= limit:
                 cnt += 1
                 l += 1
                 r -= 1
             else:
-                cnt += 1 
+                cnt += 1
                 r -= 1
         return cnt
