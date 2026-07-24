@@ -22,7 +22,7 @@ class MagicDictionary:
 
     def search(self, searchWord: str) -> bool:
         def dfs(i, node, used):
-            print(i, node, used)
+            # print(i, node, used)
             if i == len(searchWord):
                 return node.isEnd and used
             # skip
