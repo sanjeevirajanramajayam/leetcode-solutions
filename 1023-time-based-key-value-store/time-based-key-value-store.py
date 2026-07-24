@@ -4,24 +4,24 @@ class TimeMap:
         self.hashmap = defaultdict(list)
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        self.hashmap[key].append((value, timestamp))
+        self.hashmap[key].append((timestamp, value))
 
     def get(self, key: str, timestamp: int) -> str:
-        # return ""
         bs = self.hashmap[key]
         low = 0
         high = len(bs) - 1
-        ans = -1
+        ans = ""
         while low <= high:
             mid = (low + high) // 2
-            if bs[mid][1] > timestamp: 
+            val = bs[mid][0]
+            if val == timestamp:
+                return bs[mid][1]
+            elif val > timestamp:
                 high = mid - 1
             else:
-                ans = mid
+                ans = bs[mid][1]
                 low = mid + 1
-        if ans == -1:
-            return ""
-        return bs[ans][0]
+        return ans
 
 # Your TimeMap object will be instantiated and called as such:
 # obj = TimeMap()
