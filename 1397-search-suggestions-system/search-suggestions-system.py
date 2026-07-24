@@ -25,6 +25,8 @@ class Trie:
 
     
         def dfs(node, prefix):
+            if len(self.ans) >= 3:
+                return
             if node.isEnd:
                 self.ans.append(prefix)
             for ch in range(len(node.children)):
@@ -45,7 +47,7 @@ class Solution:
             trie.insert_word(word)
         ans = []
         for i in range(len(searchWord)):
-            print(searchWord[:i+1])
+            # print(searchWord[:i+1])
             ans.append(trie.search(searchWord[:i+1]))
-        print(ans)
+        # print(ans)
         return ans
