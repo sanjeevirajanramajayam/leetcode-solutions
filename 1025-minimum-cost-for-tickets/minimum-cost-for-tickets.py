@@ -5,29 +5,18 @@ class Solution:
             if ind == len(days):
                 return 0
             
-            currDay = days[ind]
-
-            oneDay = currDay + 1
-            sevenDay = currDay + 7
-            thirtyDay = currDay + 30
-
             temp = ind
-            while temp < len(days) and oneDay > days[temp]:
+            while temp < len(days) and days[ind] + 1 > days[temp]:
                 temp += 1
-
-            ones = costs[0] + fn(temp)
-
+            one = costs[0] + fn(temp)
             temp = ind
-            while temp < len(days) and sevenDay > days[temp]:
+            while temp < len(days) and days[ind] + 7 > days[temp]:
                 temp += 1
-
             seven = costs[1] + fn(temp)
-
             temp = ind
-            while temp < len(days) and thirtyDay > days[temp]:
+            while temp < len(days) and days[ind] + 30 > days[temp]:
                 temp += 1
-            
             thirty = costs[2] + fn(temp)
+            return min(one, seven, thirty)
 
-            return min(ones, seven, thirty)
         return fn(0)
