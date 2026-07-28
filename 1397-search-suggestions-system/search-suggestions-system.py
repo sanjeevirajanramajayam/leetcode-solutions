@@ -15,39 +15,37 @@ class Trie:
             curr = curr.children[ord(ch) - ord('a')]
         curr.isEnd = True
     
-    def search(self, prefix):
-        self.ans = []
+    def search_word(self, prefix):
         curr = self.root
+
         for ch in prefix:
-            if not curr.children[ord(ch) - ord('a')]: 
-                return self.ans
+            if curr.children[ord(ch) - ord('a')] is None: 
+                return []
             curr = curr.children[ord(ch) - ord('a')]
 
-    
-        def dfs(node, prefix):
-            if len(self.ans) >= 3:
-                return
+        ans = []
+
+        def dfs(node, temp):
+            nonlocal ans
             if node.isEnd:
-                self.ans.append(prefix)
+                ans.append(temp)
             for ch in range(len(node.children)):
-                if node.children[ch]:
-                    dfs(node.children[ch], prefix + chr((ch) + ord('a')))
+                if node.children[ch] is not None:
+                    dfs(node.children[ch], temp + chr(ord('a') + ch))
         
         dfs(curr, prefix)
-        temp = self.ans[:3]
-        self.ans = []
-        return temp
-
-
+        return ans[:3]
 
 class Solution:
     def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
-        trie = Trie()
+        t = Trie()
+        
         for word in products:
-            trie.insert_word(word)
+            t.insert_word(word)
+        
         ans = []
         for i in range(len(searchWord)):
-            # print(searchWord[:i+1])
-            ans.append(trie.search(searchWord[:i+1]))
-        # print(ans)
+            ans.append(t.search_word(searchWord[:i + 1]))
         return ans
+        
+        
