@@ -27,6 +27,8 @@ class Trie:
 
         def dfs(node, temp):
             nonlocal ans
+            if len(ans) >= 3:
+                return
             if node.isEnd:
                 ans.append(temp)
             for ch in range(len(node.children)):
