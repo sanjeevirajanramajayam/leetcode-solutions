@@ -6,23 +6,26 @@ class Solution:
             if s[i] not in start:
                 start[s[i]] = i
                 end[s[i]] = i
-            else:
-                end[s[i]] = i
+            end[s[i]] = i
+        # print(start, end)
         intervals = []
-        for i in start:
-            intervals.append((start[i], end[i]))
+        for key in start:
+            intervals.append([start[key], end[key]])
         # print(intervals)
-        intervals.sort()
-        newAns = []
-        for start, end in intervals:
-            if not newAns:
-                newAns.append([start, end])
-            else:
-                if start <= newAns[-1][1]:
-                    newAns[-1][1] = max(newAns[-1][1], end)
-                else:
-                    newAns.append([start, end])
+        intervals.sort(key=lambda x : (x[0], x[1]))
+        # print(intervals)
+
         ans = []
-        for start, end in newAns:
-            ans.append(end - start + 1)
-        return ans
+        for i in range(len(intervals)):
+            if not ans:
+                ans.append(intervals[i])
+            else:
+                if intervals[i][0] <= ans[-1][1]:
+                    ans[-1][1] = max(ans[-1][1], intervals[i][1])
+                else:
+                    ans.append(intervals[i])
+        newAns = []
+        for start, end in ans:
+            newAns.append(end - start + 1)
+        print(newAns)
+        return newAns
