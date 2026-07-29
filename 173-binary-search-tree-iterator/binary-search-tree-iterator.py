@@ -12,15 +12,14 @@ class BSTIterator:
         while curr:
             self.stack.append(curr)
             curr = curr.left
+        # print(self.stack)        
 
     def next(self) -> int:
         node = self.stack.pop()
-        if node.right:
-            curr = node.right
+        curr = node.right
+        while curr:
             self.stack.append(curr)
-            while curr.left:
-                self.stack.append(curr.left)
-                curr = curr.left
+            curr = curr.left
         return node.val
 
     def hasNext(self) -> bool:
