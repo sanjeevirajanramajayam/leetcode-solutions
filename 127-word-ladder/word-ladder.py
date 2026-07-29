@@ -1,18 +1,19 @@
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        queue = deque([(beginWord, 1)])
-        wordList = set(wordList)
+        wordSet = set(wordList)
+        queue = deque([(1, beginWord)])
+
         while queue:
-            word, cnt = queue.popleft()
+            cnt, word = queue.popleft()
             if word == endWord:
                 return cnt
             word = list(word)
             for i in range(len(word)):
-                originalChar = word[i]
-                for j in range(ord('a'), ord('z') + 1, 1):
-                    word[i] = chr(j)
-                    if "".join(word) in wordList:
-                        wordList.remove("".join(word))
-                        queue.append(("".join(word), cnt + 1))
-                word[i] = originalChar
+                orig = word[i]
+                for ch in string.ascii_lowercase:
+                    word[i] = ch
+                    if "".join(word) in wordSet:
+                        queue.append((cnt + 1, "".join(word)))
+                        wordSet.remove("".join(word))
+                word[i] = orig
         return 0
