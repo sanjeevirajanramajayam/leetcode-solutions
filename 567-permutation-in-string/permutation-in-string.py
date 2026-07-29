@@ -1,22 +1,19 @@
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
-        # s1 = Counter(s1)
-        # s2 = {}
-        s1h = Counter(s1)
-        s2h = {}
+        s1Len = len(s1)
         if len(s1) > len(s2):
             return False
-        for i in range(len(s1)):
-            s2h[s2[i]] = s2h.get(s2[i], 0) + 1
-        if s2h == s1h:
+        s1 = Counter(s1)
+        dic = {}
+        for i in range(0, s1Len):
+            dic[s2[i]] = dic.get(s2[i], 0) + 1
+        if dic == s1:
             return True
-        for i in range(len(s1), len(s2)):
-            s2h[s2[i - len(s1)]] -= 1
-            if s2h[s2[i - len(s1)]] == 0:
-                del s2h[s2[i-len(s1)]]
-            s2h[s2[i]] = s2h.get(s2[i], 0) + 1
-            # print(s2h)
-            if s2h == s1h:
+        for i in range(s1Len, len(s2)):
+            dic[s2[i - s1Len]] -= 1
+            if dic[s2[i - s1Len]] == 0:
+                del dic[s2[i - s1Len]]
+            dic[s2[i]] = dic.get(s2[i], 0) + 1
+            if dic == s1:
                 return True
         return False
-
