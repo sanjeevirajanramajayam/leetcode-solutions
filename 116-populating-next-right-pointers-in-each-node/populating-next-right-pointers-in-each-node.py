@@ -18,7 +18,7 @@ class Solution:
         curr = root
 
         while curr and nxt:
-            print(curr.val, nxt.val)
+            # print(curr.val, nxt.val)
             curr.left.next = curr.right
             if curr.next:
                 curr.right.next = curr.next.left
