@@ -2,46 +2,47 @@ class TrieNode:
     def __init__(self):
         self.children = [None] * 26
         self.isEnd = False
+
 class MagicDictionary:
 
     def __init__(self):
         self.root = TrieNode()
-    
-    def insert_word(self, word):
-        curr = self.root
-        for ch in word:
-            if curr.children[ord(ch) - ord('a')] is None: 
-                curr.children[ord(ch) - ord('a')] = TrieNode()
-            curr = curr.children[ord(ch) - ord('a')]
-        curr.isEnd = True
+        
 
     def buildDict(self, dictionary: List[str]) -> None:
         for word in dictionary:
-            self.insert_word(word)
-        
+            curr = self.root
+            for ch in word:
+                if curr.children[ord(ch) - ord('a')] is None: 
+                    curr.children[ord(ch) - ord('a')] = TrieNode()
+                curr = curr.children[ord(ch) - ord('a')]
+            curr.isEnd = True
 
     def search(self, searchWord: str) -> bool:
-        def dfs(i, node, used):
-            # print(i, node, used)
-            if i == len(searchWord):
-                return node.isEnd and used
-            # skip
-            if not used:
-                for j in range(len(node.children)):
-                    if ord('a') + j == ord(searchWord[i]):
+        def dfs(ind, skipped, node):
+            if ind == len(searchWord):
+                if skipped and node.isEnd:
+                    return True
+                else:
+                    return False
+            
+            if not skipped:
+                for ch in range(len(node.children)):
+                    if chr(ord('a') + ch) == searchWord[ind]:
                         continue
-                    if node.children[j] is not None:
-                        if dfs(i + 1, node.children[j], True):
+                    if node.children[ch] is not None:
+                        if dfs(ind + 1, True, node.children[ch]):
                             return True
-            # go
-            for j in range(26):
-                if chr(ord('a') + j) == searchWord[i] and node.children[j] is not None:
-                    if dfs(i + 1, node.children[j], used):
+            
+            for ch in range(len(node.children)):
+                if node.children[ch] is not None and chr(ord('a') + ch) == searchWord[ind]:
+                    if dfs(ind + 1, skipped, node.children[ch]):
                         return True
-
             return False
+        return dfs(0, False, self.root)
         
-        return dfs(0, self.root, False)
+
+
 
 # Your MagicDictionary object will be instantiated and called as such:
 # obj = MagicDictionary()
