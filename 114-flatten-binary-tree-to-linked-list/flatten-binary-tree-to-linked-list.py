@@ -10,14 +10,13 @@ class Solution:
         Do not return anything, modify root in-place instead.
         """
         prev = None
-        def fn(root):
+        def flatten(root):
             nonlocal prev
             if root == None:
-                return
-            fn(root.right)
-            fn(root.left)
+                return None
+            flatten(root.right)
+            flatten(root.left)
             root.right = prev
-            # root.right = prev
             root.left = None
             prev = root
-        fn(root)
+        flatten(root)
