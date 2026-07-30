@@ -2,8 +2,10 @@ class Solution:
     def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
         maxHeap = []
         for i in range(len(matrix)):
-            for j in range(len(matrix)):
-                heapq.heappush(maxHeap, -matrix[i][j])
-                if len(maxHeap) > k:
-                    heapq.heappop(maxHeap)
-        return -maxHeap[0]
+            heapq.heappush(maxHeap, (matrix[i][0], i, 0))
+        for _ in range(k - 1):
+            val, i, j = heapq.heappop(maxHeap)
+            if j + 1 < len(matrix):
+                heapq.heappush(maxHeap, (matrix[i][j + 1], i, j + 1))
+        return heapq.heappop(maxHeap)[0]
+
