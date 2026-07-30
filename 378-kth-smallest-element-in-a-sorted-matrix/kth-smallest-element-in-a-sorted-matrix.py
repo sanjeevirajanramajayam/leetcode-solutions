@@ -1,7 +1,7 @@
 class Solution:
     def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
         maxHeap = []
-        for i in range(len(matrix)):
+        for i in range(min(k, len(matrix))):
             heapq.heappush(maxHeap, (matrix[i][0], i, 0))
         for _ in range(k - 1):
             val, i, j = heapq.heappop(maxHeap)
