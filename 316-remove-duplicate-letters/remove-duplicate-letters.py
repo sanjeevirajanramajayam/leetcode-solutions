@@ -1,16 +1,16 @@
 class Solution:
-    def removeDuplicateLetters(self, s: str) -> str:    
-        dic = {}
+    def removeDuplicateLetters(self, s: str) -> str:
+        visited = set()
         stack = []
+        dic = {}
         for i in range(len(s)):
             dic[s[i]] = i
-        visited = set()
         for i in range(len(s)):
             if s[i] in visited:
                 continue
             while stack and stack[-1] > s[i] and dic[stack[-1]] > i:
                 visited.remove(stack.pop())
-            visited.add(s[i])
             stack.append(s[i])
-            # print(stack, visited, s[i])
-        return "".join(stack)
+            visited.add(s[i])
+        return "".join(stack) 
+            
