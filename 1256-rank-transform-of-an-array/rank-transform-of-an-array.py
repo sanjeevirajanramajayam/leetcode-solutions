@@ -1,21 +1,13 @@
-class Solution(object):
-    def arrayRankTransform(self, arr):
-        """
-        :type arr: List[int]
-        :rtype: List[int]
-        """
-        maxHeap = [-x for x in arr]
-        heapq.heapify(maxHeap)
-        rankMap = {}
-        last_element = -1
-        rank = 0
-        while maxHeap:
-            num = -heapq.heappop(maxHeap)    
-            if last_element != num:
-                rank += 1
-                if num not in rankMap:
-                    rankMap[num] = rank
-                last_element = num
-        maxRank = rank
-        return [maxRank - rankMap[x] + 1 for x in arr]
-
+class Solution:
+    def arrayRankTransform(self, arr: List[int]) -> List[int]:
+        nums = sorted(set(arr))
+        hash = {}
+        for i in range(len(nums)):
+            if nums[i] not in hash:
+                hash[nums[i]] = i + 1
+        # print(nums)
+        # print(hash)
+        ans = []
+        for i in range(len(arr)):
+            ans.append(hash[arr[i]])
+        return ans
