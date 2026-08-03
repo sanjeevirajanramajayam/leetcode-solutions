@@ -1,19 +1,26 @@
 class Solution:
     def reorganizeString(self, s: str) -> str:
-        oldS = s[:]
         c = Counter(s)
-        heap = [(-x, ch) for ch, x in c.items()]
-        s = ""
+        heap = []
+        for key in c:
+            heapq.heappush(heap, (-c[key], key))
         heapq.heapify(heap)
-        temp = (1, -1)
+        ans = ""
+        temp = None
+        # print(heap)
         while heap:
-            # print(heap)
+            # print(temp, heap, ans)
+
             freq, char = heapq.heappop(heap)
-            s += char
-            if temp[0] < 0:
-                heapq.heappush(heap, temp)
-            temp = (freq + 1, char)
-        # print(s)
-        if len(s) != len(oldS):
+            ans += char
+
+            if temp:
+                heapq.heappush(heap, (temp[0], temp[1]))
+                temp = None
+
+            if freq + 1 < 0:
+                temp = [freq + 1, char]
+        # print(ans)
+        if len(ans) != len(s):
             return ""
-        return s
+        return ans
