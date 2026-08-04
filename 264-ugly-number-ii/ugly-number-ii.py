@@ -4,12 +4,9 @@ class Solution:
         visited = set()
         heap = [ugly]
         for _ in range(n):
-            temp = heapq.heappop(heap)
-            # temp = heap[0]
+            num = heapq.heappop(heap)
             for factor in [2, 3, 5]:
-                newNum = temp * factor
-                if newNum not in visited:
-                    visited.add(newNum)
-                    heapq.heappush(heap, newNum)
-
-        return temp
+                if num * factor not in visited:
+                    visited.add(num * factor)
+                    heapq.heappush(heap, num * factor)
+        return num
