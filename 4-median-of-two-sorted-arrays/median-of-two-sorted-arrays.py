@@ -1,36 +1,44 @@
-class Solution(object):
-    def findMedianSortedArrays(self, nums1, nums2):
-        A, B = nums1, nums2
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        A = nums1
+        B = nums2
         if len(A) > len(B):
-            A, B = B, A
+            B, A = A, B
+        half = len(A) + len(B)
+        totalLen = half
+        half //= 2
+        l = 0
+        r = len(A) - 1
+        while True:
+            mid = (l + r) // 2
+            longMid = half - mid - 2
 
-        total = len(A) + len(B)
-        half = total // 2
-
-        low = 0
-        high = len(A)
-
-        while low <= high:
-            mid = (low + high) // 2
-
-            r2 = mid
-            l2 = r2 - 1
-
-            r1 = half - r2
-            l1 = r1 - 1
-
-            Aleft  = A[l2] if l2 >= 0 else float('-inf')
-            Aright = A[r2] if r2 < len(A) else float('inf')
-
-            Bleft  = B[l1] if l1 >= 0 else float('-inf')
-            Bright = B[r1] if r1 < len(B) else float('inf')
-
-            if Aleft <= Bright and Bleft <= Aright:
-                if total % 2:
-                    return min(Aright, Bright)
-                return (max(Aleft, Bleft) + min(Aright, Bright)) / 2.0
-
-            elif Aleft > Bright:
-                high = mid - 1
+            if mid >= 0:
+                Aleft = A[mid]
             else:
-                low = mid + 1
+                Aleft = float('-inf')
+            
+            if (mid + 1) < len(A):
+                Aright = A[mid + 1]
+            else:
+                Aright = float('inf')
+            
+            if longMid >= 0:
+                Bleft = B[longMid]
+            else:
+                Bleft = float('-inf')
+            
+            if longMid + 1 < len(B):
+                Bright = B[longMid + 1]
+            else:
+                Bright = float('inf')
+            
+            if Aleft <= Bright and Bleft <= Aright:
+                if totalLen % 2 == 0:
+                    return (max(Aleft, Bleft) + min(Aright, Bright)) / 2
+                else:
+                    return min(Aright, Bright)
+            elif Aleft > Bright:
+                r = mid - 1
+            else:
+                l = mid + 1
