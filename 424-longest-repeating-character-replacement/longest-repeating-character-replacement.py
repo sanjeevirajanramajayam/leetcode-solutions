@@ -17,13 +17,13 @@ class Solution:
                 if freqMap[s[l]] == 0:
                     del freqMap[s[l]]
 
-                maxFreq = float('-inf')
-                maxChar = '-1' 
+                # maxFreq = float('-inf')
+                # maxChar = '-1' 
 
-                for key in freqMap:
-                    if freqMap[key] > maxFreq:
-                        maxChar = key
-                        maxFreq = freqMap[key]
+                # for key in freqMap:
+                #     if freqMap[key] > maxFreq:
+                #         maxChar = key
+                #         maxFreq = freqMap[key]
                 
                 l += 1
             
