@@ -1,44 +1,41 @@
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-        A = nums1
-        B = nums2
+        A, B = nums1, nums2
         if len(A) > len(B):
-            B, A = A, B
-        half = len(A) + len(B)
-        totalLen = half
-        half //= 2
-        l = 0
-        r = len(A) - 1
+            A, B = B, A
+        low = 0
+        high = len(A) - 1
+        totalLen = len(A) + len(B)
+        half = totalLen // 2
         while True:
-            mid = (l + r) // 2
-            longMid = half - mid - 2
-
-            if mid >= 0:
-                Aleft = A[mid]
-            else:
-                Aleft = float('-inf')
-            
-            if (mid + 1) < len(A):
-                Aright = A[mid + 1]
-            else:
+            mid = (low + high) // 2
+            j = half - mid - 2
+            if mid + 1 >= len(A):
                 Aright = float('inf')
-            
-            if longMid >= 0:
-                Bleft = B[longMid]
             else:
-                Bleft = float('-inf')
-            
-            if longMid + 1 < len(B):
-                Bright = B[longMid + 1]
+                Aright = A[mid + 1]
+
+            if mid < 0:
+                Aleft = float('-inf')
             else:
+                Aleft = A[mid]
+
+            if j + 1 >= len(B):
                 Bright = float('inf')
-            
-            if Aleft <= Bright and Bleft <= Aright:
+            else:
+                Bright = B[j + 1]
+
+            if j < 0:
+                Bleft = float('-inf')
+            else:
+                Bleft = B[j]
+            # print(Blef/t, Aright, Aleft, Bright)
+            if Bleft <= Aright and Aleft <= Bright:
                 if totalLen % 2 == 0:
                     return (max(Aleft, Bleft) + min(Aright, Bright)) / 2
                 else:
                     return min(Aright, Bright)
             elif Aleft > Bright:
-                r = mid - 1
+                high = mid - 1
             else:
-                l = mid + 1
+                low = mid + 1
