@@ -33,5 +33,5 @@ class Solution:
                 
                 while r < len(nums) - 1 and r >= 0 and  nums[r] == nums[r + 1]:
                     r -= 1
-        print(minDiff)
+        # print(minDiff)
         return ans
