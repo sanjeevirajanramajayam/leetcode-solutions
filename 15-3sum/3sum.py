@@ -1,30 +1,27 @@
 class Solution:
     def threeSum(self, nums: list[int]) -> list[list[int]]:
-        nums.sort()
         ans = []
-        prevI = float('-inf')
+        nums.sort()
         for i in range(len(nums)):
-            if prevI != float('-inf'):
-                if nums[i] == prevI:
-                    continue
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            l = i + 1
+            r = len(nums) - 1
+            target = -nums[i]
+            while l < r:
+                currSum = nums[l] + nums[r]
+                if currSum == target:
+                    ans.append([nums[i], nums[l], nums[r]])
+                    l += 1
+                    r -= 1
+                elif currSum > target:
+                    r -= 1
                 else:
-                    prevI = nums[i]
-            else:
-                prevI = nums[i]
-            j = i + 1
-            k = len(nums) - 1
-            while j < k:
-                zeroSum = nums[i] + nums[j] + nums[k]
-                if zeroSum > 0:
-                    k -= 1
-                elif zeroSum < 0:
-                    j += 1
-                else:
-                    ans.append([nums[i], nums[j], nums[k]])
-                    prevJ = nums[j]
-                    while j < len(nums) and nums[j] == prevJ:
-                        j += 1
-                    prevK = nums[k]
-                    while k >= 0 and nums[k] == prevK:
-                        k -= 1
+                    l += 1
+                # print(l > i + 1 , nums[l], nums[l - 1])
+                while l > i + 1 and l < len(nums) and nums[l] == nums[l - 1]:
+                    l += 1
+                
+                while r < len(nums) - 1 and r >= 0 and  nums[r] == nums[r + 1]:
+                    r -= 1
         return ans
