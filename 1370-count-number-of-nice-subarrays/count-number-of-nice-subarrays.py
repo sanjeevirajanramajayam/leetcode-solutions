@@ -3,17 +3,18 @@ class Solution:
         def lessThanK(k):
             if k < 0:
                 return 0
+            oddCnt = 0
             l = 0
-            oneCnt = 0
             ans = 0
-            for r in range(len(nums)): 
+            for r in range(len(nums)):
                 if nums[r] % 2 == 1:
-                    oneCnt += 1
-                while oneCnt > k:
+                    oddCnt += 1
+
+                while oddCnt > k:
                     if nums[l] % 2 == 1:
-                        oneCnt -= 1
+                        oddCnt -= 1
                     l += 1
-                ans += (r - l) + 1
-                # print(ans, r, l)
+                
+                ans += (r - l + 1)
             return ans
         return lessThanK(k) - lessThanK(k - 1)
