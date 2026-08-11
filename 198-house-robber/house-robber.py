@@ -1,16 +1,12 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        dp = [-1] * len(nums)
+        @cache
         def fn(ind):
-            if ind == 0:
-                return nums[ind]
-            if ind < 0:
+            if ind >= len(nums):
                 return 0
-            if dp[ind] != -1:
-                return dp[ind]
-            take = fn(ind - 2) + nums[ind]
-            not_take = fn (ind - 1)
-            dp[ind] = max(take, not_take)
-            return dp[ind]
-        
-        return fn(len(nums) - 1)
+            
+            take = nums[ind] + fn(ind + 2)
+            not_take = fn(ind + 1)
+
+            return max(take, not_take)
+        return fn(0)
