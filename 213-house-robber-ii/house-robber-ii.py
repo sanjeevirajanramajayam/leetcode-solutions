@@ -1,43 +1,14 @@
 class Solution:
-    def rob(self, arr: List[int]) -> int:
-        if len(arr) == 1:
-            return arr[0]
-        n = len(arr)
-        dp = [-1] * (n)
-        temp = arr
-        arr = arr[1:]
-        ans = arr[0]
+    def rob(self, nums: List[int]) -> int:
+        if len(nums) == 1:
+            return nums[0]
+        @cache
+        def fn(ind, r):
+            if ind >= r:
+                return 0
+            
+            take = nums[ind] + fn(ind + 2, r)
+            not_take = fn(ind + 1, r)
 
-        curr = arr[0]
-        prev = arr[0]
-        previ = arr[0]
-        dp[0] = arr[0]
-        for ind in range(1, n - 1):
-            take = arr[ind]
-            if ind - 2 >= 0:
-                take = previ + arr[ind]
-            not_take = prev
-            curr = max(take, not_take)
-            previ = prev
-            prev = curr
-
-        ans = max(ans, curr)
-
-        arr = temp
-        arr.pop()
-
-        curr = arr[0]
-        prev = arr[0]
-        previ = arr[0]
-        dp[0] = arr[0]
-        for ind in range(1, n - 1):
-            take = arr[ind]
-            if ind - 2 >= 0:
-                take = previ + arr[ind]
-            not_take = prev
-            curr = max(take, not_take)
-            previ = prev
-            prev = curr
-
-        ans = max(ans, curr)
-        return ans
+            return max(take, not_take)
+        return max(fn(0, len(nums) - 1), fn(1, len(nums)))
