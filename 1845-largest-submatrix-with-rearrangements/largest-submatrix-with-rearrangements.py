@@ -28,6 +28,6 @@ class Solution:
                 if row[i] != 0:
                     minW = min(minW, row[i])
                     maxArea = max(maxArea, minW * (i + 1))
-                    print(minW, i + 1)
+                    # print(minW, i + 1)
             row = temp
         return maxArea
