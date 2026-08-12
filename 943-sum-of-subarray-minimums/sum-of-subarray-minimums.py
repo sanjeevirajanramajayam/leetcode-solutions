@@ -4,37 +4,39 @@ class Solution(object):
         :type arr: List[int]
         :rtype: int
         """
-        def nse(arr):
+        def psee(arr):
             stack = []
-            ans = [0] * len(arr)
-            for i in range(len(arr) - 1, -1, -1):
+            psee = []
+            for i in range(len(arr)):
                 while stack and arr[stack[-1]] > arr[i]:
                     stack.pop()
                 if not stack:
-                    ans[i] = len(arr)
+                    psee.append(-1)
                 else:
-                    ans[i] = stack[-1]
+                    psee.append(stack[-1])
                 stack.append(i)
-            return ans
-        
-        def psee(arr):
+            # print(psee)
+            return psee
+        def nse(arr):
             stack = []
-            ans = [0] * len(arr)
-            for i in range(len(arr)):
+            nse = [0] * len(arr)
+            for i in range(len(arr) - 1, -1, -1):
                 while stack and arr[stack[-1]] >= arr[i]:
                     stack.pop()
                 if not stack:
-                    ans[i] = -1
+                    nse[i] = len(arr)
                 else:
-                    ans[i] = stack[-1]
+                    nse[i] = (stack[-1])
                 stack.append(i)
-            return ans
-
-        psee = psee(arr)
+            # print(nse)
+            return nse
         nse = nse(arr)
-        count = 0
+        psee = psee(arr)
+        # print(nse, psee)
+        ans = 0
         for i in range(len(arr)):
             left = i - psee[i]
             right = nse[i] - i
-            count += (left * right) * arr[i]
-        return count % (10 ** 9 + 7)
+            ans += (left * right) * arr[i]
+            # print(left, right, ans, psee[i], nse[i], i)
+        return ans % (10 ** 9 + 7)
