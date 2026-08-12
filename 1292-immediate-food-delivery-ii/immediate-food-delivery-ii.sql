@@ -1,14 +1,2 @@
-SELECT
-ROUND(
-    AVG(order_date = customer_pref_delivery_date) * 100,
-    2
-) AS immediate_percentage
-FROM Delivery d
-JOIN (
-    SELECT customer_id,
-           MIN(order_date) AS first_order
-    FROM Delivery
-    GROUP BY customer_id
-) f
-ON d.customer_id = f.customer_id
-AND d.order_date = f.first_order;
+# Write your MySQL query statement below
+select round((select count(*) from (select customer_id, min(order_date) as order_date from delivery group by customer_id) a join delivery b on a.customer_id = b.customer_id and a.order_date = b.customer_pref_delivery_date) / (select count(distinct customer_id) from delivery) * 100, 2) as immediate_percentage 
