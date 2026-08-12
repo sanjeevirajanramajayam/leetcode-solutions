@@ -1,21 +1,23 @@
 class Solution:
     def splitArray(self, nums: List[int], k: int) -> int:
-        def nsplits(k):
-            splits = 0
+        low = max(nums)
+        high = sum(nums)
+        
+        def fn(sum):
+            splits = 1
             currSum = 0
             for i in range(len(nums)):
                 currSum += nums[i]
-                if currSum > k:
+                if currSum > sum:
                     currSum = nums[i]
                     splits += 1
-            return splits + 1
-        
-        low = max(nums)
-        high = sum(nums)
+            return splits
+
         ans = -1
         while low <= high:
             mid = (low + high) // 2
-            if nsplits(mid) <= k:
+            # print(mid, fn(mid))
+            if fn(mid) <= k:
                 ans = mid
                 high = mid - 1
             else:
