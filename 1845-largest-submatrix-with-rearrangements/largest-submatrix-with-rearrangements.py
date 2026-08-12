@@ -1,25 +1,33 @@
 class Solution:
     def largestSubmatrix(self, matrix: List[List[int]]) -> int:
-        newRow = matrix[0][:]
-        newRow.sort(reverse=True)
-        ans = float('-inf')
-        # ans /= max(ans, newRow[i])
-        for i in range(len(newRow)):
-            ans = max(ans, (i + 1) * newRow[i])
-        newRow = matrix[0]
+        row = matrix[0]
+        maxArea = 0
+        minW = float('inf')
+        temp = row[:]
+        row.sort(reverse=True)
+        # print(row)
+        for i in range(len(row)):
+            if row[i] == 1:
+                minW = min(minW, row[i])
+                maxArea = max(maxArea, minW * (i + 1))
+        row = temp
         for k in range(1, len(matrix)):
-
-            for j in range(len(matrix[0])):
-                if matrix[k][j] != 0:
-                    newRow[j] += matrix[k][j]
+            minW = float('inf')
+            # row = matrix[k]
+            for i in range(len(matrix[k])):
+                if matrix[k][i] == 1:
+                    row[i] += 1
                 else:
-                    newRow[j] = 0
-            oldTemp = newRow[:]
-            newRow.sort(reverse=True)
-            for i in range(len(newRow)):
-                ans = max(ans, (i + 1) * newRow[i])
-                # print(i + 1, newRow[i])
-            # print(newRow)
-            newRow = oldTemp[:]
-        return ans
-        
+                    row[i] = 0
+            # print(row)
+            
+            temp = row[:]
+            row.sort(reverse=True)
+            # print(row)
+            for i in range(len(row)):
+                if row[i] != 0:
+                    minW = min(minW, row[i])
+                    maxArea = max(maxArea, minW * (i + 1))
+                    print(minW, i + 1)
+            row = temp
+        return maxArea
