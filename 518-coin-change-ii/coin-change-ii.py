@@ -1,15 +1,25 @@
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
-        dp = [[-1 for i in range(amount + 1)] for i in range(len(coins))]
+        @cache
         def fn(ind, target):
+            
             if ind == 0:
-                return 1 if target % coins[0] == 0 else 0
-            if dp[ind][target] != -1:
-                return dp[ind][target]  
+                if target % coins[ind] == 0:
+                    return 1
+                else:
+                    return 0
             take = 0
             if target >= coins[ind]:
                 take = fn(ind, target - coins[ind])
+                # print(coins[ind], take - 1, 1)
             not_take = fn(ind - 1, target)
-            dp[ind][target] = take + not_take
+            # print(take, not_take)
+
             return take + not_take
-        return fn(len(coins) - 1, amount)
+
+        x = fn(len(coins) - 1, amount) 
+
+        if x == float('inf'):
+            return -1
+
+        return x
