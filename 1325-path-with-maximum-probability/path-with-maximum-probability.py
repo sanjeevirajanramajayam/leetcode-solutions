@@ -1,30 +1,30 @@
 class Solution:
     def maxProbability(self, n: int, edges: List[List[int]], succProb: List[float], start_node: int, end_node: int) -> float:
-        for i in range(len(succProb)):
-            edges[i].append(succProb[i])
-        
+        # heap = [()]
         adjList = [[] for i in range(n)]
 
-        for s, e, p in edges:
-            adjList[s].append((e, p))
-            adjList[e].append((s, p))
+        for i in range(len(edges)):
+            edges[i].append(succProb[i])
+        # print(edges)
+        for startNode, endNode, prob in edges:
+            adjList[startNode].append((endNode, prob))
+            adjList[endNode].append((startNode, prob))
         
-        pq = [(-1, start_node)]
-
-        distArray = [float('-inf') for i in range(n)] 
-        distArray[start_node] = 1
-        while pq:
-            prob, node = heapq.heappop(pq)            
-            prob = -prob
-            if prob > distArray[node]:
-                continue
-            if node == end_node:
-                return prob
+        heap = [(-1, start_node)]
+        dist = [float('-inf') for i in range(n)]
+        dist[start_node] = 1
+        while heap:
+            prob, node = heapq.heappop(heap)
             # prob = -prob
-            for nnode, p in adjList[node]:
-                newProb = prob * p
-                if newProb > distArray[nnode]:
-                    distArray[nnode] = newProb
-                    heapq.heappush(pq, (-distArray[nnode], nnode))
-        print(distArray)
-        return 0
+            if -prob < dist[node]:
+                continue
+            
+            for nnode, nprob in adjList[node]:
+                if dist[node] * nprob > dist[nnode]:
+                    dist[nnode] = dist[node] * nprob
+                    heapq.heappush(heap, (-dist[nnode], nnode))
+        # print(dist)
+        if dist[end_node] == float('-inf'):
+            return 0
+
+        return dist[end_node]
