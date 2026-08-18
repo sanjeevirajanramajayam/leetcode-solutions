@@ -1,19 +1,20 @@
 class Solution:
-    def numSubarraysWithSum(self, nums: List[int], k: int) -> int:
+    def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
         def lessThanK(k):
+            l = 0
+            cnt = 0
+            ans = 0
             if k < 0:
                 return 0
-            l = 0
-            oneCnt = 0
-            ans = 0
-            for r in range(len(nums)): 
+            for r in range(len(nums)):
                 if nums[r] == 1:
-                    oneCnt += 1
-                while oneCnt > k:
+                    cnt += 1
+                while cnt > k:
                     if nums[l] == 1:
-                        oneCnt -= 1
+                        cnt -= 1
                     l += 1
-                ans += (r - l) + 1
-                # print(ans, r, l)
+                ans += (r - l + 1)
+            # print(ans)
             return ans
-        return lessThanK(k) - lessThanK(k - 1)
+        # print(lessThanK(goal), lessThanK(goal - 1))
+        return lessThanK(goal) - lessThanK(goal - 1)
