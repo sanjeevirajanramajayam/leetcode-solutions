@@ -3,6 +3,6 @@ class Solution:
         hashmap = {}
         for i in range(len(nums)):
             if target - nums[i] in hashmap:
-                return ([i, hashmap[target - nums[i]]])
+                return [i, hashmap[target - nums[i]]]
             hashmap[nums[i]] = i
         
