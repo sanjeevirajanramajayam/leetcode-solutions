@@ -1,18 +1,13 @@
 class Solution:
     def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
-        dp = {}
-        def fn(ind):
-            if ind == len(arr):
+        @cache
+        def fn(i):
+            if i == len(arr):
                 return 0
-            length = 0
-            maxVal = float('-inf')
+            ans = float('-inf')
             maxi = float('-inf')
-            if ind in dp:
-                return dp[ind]
-            for l in range(ind, min(len(arr), ind + k)):
-                maxVal = max(maxVal, arr[l])
-                length += 1
-                maxi = max(maxi, length * maxVal + fn(l + 1))
-            dp[ind] = maxi
-            return maxi
+            for j in range(i, min(i + k, len(arr))):
+                maxi = max(maxi, arr[j])
+                ans = max(maxi * (j - i + 1) + fn(j + 1), ans)
+            return ans 
         return fn(0)
