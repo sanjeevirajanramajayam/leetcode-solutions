@@ -1,14 +1,13 @@
 class TrieNode:
     def __init__(self):
-        self.children = [None] * 26
         self.isEnd = False
-    
-class WordDictionary:
+        self.children = [None] * 26
 
+class Trie:
     def __init__(self):
         self.root = TrieNode()
 
-    def addWord(self, word: str) -> None:
+    def insert_word(self, word):
         curr = self.root
         for ch in word:
             if curr.children[ord(ch) - ord('a')] is None:
@@ -16,30 +15,42 @@ class WordDictionary:
             curr = curr.children[ord(ch) - ord('a')]
         curr.isEnd = True
 
-    def search(self, word: str) -> bool:
-        def dfs(ind, node):
-            # print(ind, node)
-            if ind == len(word):
-                if node.isEnd:
-                    return True
-                else:
-                    return False
-            
-            ch = word[ind]
-            if ch == '.':
-                for ch in range(len(node.children)):
-                    if node.children[ch] is not None:
-                        if dfs(ind + 1, node.children[ch]):
+    def search_word(self, word):
+        def dfs(node, index):
+            # print(index)
+            # print(node, index)
+            if index == len(word):
+                return node.isEnd
+
+            if word[index] == '.':
+                for x in range(26):
+                    if node.children[x]:
+                        if dfs(node.children[x], index + 1) is True:
                             return True
                 return False
             else:
-                if node.children[ord(ch) - ord('a')] is None:
-                    return False
-                else:
-                    if dfs(ind + 1, node.children[ord(ch) - ord('a')]):
-                        return True
-            return False
-        return dfs(0, self.root)
+                curr = node
+                for idx in range(index, len(word)):
+                    ch = word[idx]
+                    if ch == '.':
+                        return dfs(curr, idx)
+                    elif curr.children[ord(ch) - ord('a')] is None:
+                        return False
+                    else:
+                        curr = curr.children[ord(ch) - ord('a')]
+                return curr.isEnd
+        return dfs(self.root, 0)
+
+class WordDictionary:
+
+    def __init__(self):
+        self.trie = Trie()
+
+    def addWord(self, word: str) -> None:
+        self.trie.insert_word(word)
+
+    def search(self, word: str) -> bool:
+        return self.trie.search_word(word)
 
 
 # Your WordDictionary object will be instantiated and called as such:
