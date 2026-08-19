@@ -1,27 +1,27 @@
 class Solution:
     def canFinish(self, n: int, p: List[List[int]]) -> bool:
-        adjList = [[] for i in range(n)]
-        
-        for startNode, endNode in p:
-            adjList[startNode].append(endNode)
-        
-        visited = [0] * n
         dfsVisited = [0] * n
+        adjList = [[] for i in range(n)]
+        for startNode, endNode in p:
+            adjList[endNode].append(startNode)
+            # adjList[startNode].append(endNode)
+        # print(adjList)
+        visited = [0]*n
 
-        def dfs(i):
-            visited[i] = 1
-            dfsVisited[i] = 1
-            for newNode in adjList[i]:
-                if visited[newNode] == 1 and dfsVisited[newNode] == 1:
+        def dfs(node):
+            visited[node] = 1
+            dfsVisited[node] = 1
+            for nnode in adjList[node]:
+                # print(nnode, node, visited, dfsVisited)
+                if visited[nnode] == 1 and dfsVisited[nnode] == 1:
                     return False
-                if visited[newNode] != 1:
-                    if not dfs(newNode):
+                if visited[nnode] != 1:
+                    if dfs(nnode) is False:
                         return False
-            dfsVisited[i] = 0
-            return True
+            dfsVisited[node] = 0
         
         for i in range(n):
-            if visited[i] == 0: 
-                if not dfs(i):
+            if visited[i] == 0:
+                if dfs(i) is False:
                     return False
         return True
