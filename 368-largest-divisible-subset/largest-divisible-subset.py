@@ -1,25 +1,33 @@
 class Solution:
     def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
         nums.sort()
-        dp = [1] * len(nums)
-        back = [i for i in range(len(nums))]
 
-        for i in range(len(nums)):
-            for j in range(0, i):
+        dp = [1 for i in range(len(nums))]
+        back = [i for i in range(len(nums))]
+        for i in range(0, len(nums)):
+            for j in range(i):
                 if nums[i] % nums[j] == 0:
                     if dp[j] + 1 > dp[i]:
                         dp[i] = max(dp[i], dp[j] + 1)
-                        back[i] = j  
+                        back[i ] = j 
+        maxi = float('-inf')
+        for index, i in enumerate(dp):
+            if i >= maxi:
+                maxi = max(maxi, i)
+                idx = index
+        print(idx)
+        curr = idx
+        left = curr
+        ans = []
+        ans.append(nums[curr])
+        print(ans)
+        print(left, back[left])
+        while left != back[left]:
+            print(left, back[left])
+            left = back[left]
+            ans.append(nums[left])
+
         print(dp)
         print(back)
-        ans = []
-        req_ind = dp.index(max(dp))
-        # print(req_ind)
-        ans.append(nums[req_ind])
-        next = back[req_ind]
-        while req_ind != next:
-            # print(req_ind, next)
-            ans.append(nums[next])
-            req_ind = back[req_ind]
-            next = back[req_ind]
         return ans
+        
