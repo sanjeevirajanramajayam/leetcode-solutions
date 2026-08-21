@@ -15,19 +15,19 @@ class Solution:
             if i >= maxi:
                 maxi = max(maxi, i)
                 idx = index
-        print(idx)
+        # print(idx)
         curr = idx
         left = curr
         ans = []
         ans.append(nums[curr])
-        print(ans)
-        print(left, back[left])
+        # print(ans)
+        # print(left, back[left])
         while left != back[left]:
             print(left, back[left])
             left = back[left]
             ans.append(nums[left])
 
-        print(dp)
-        print(back)
+        # print(dp)
+        # print(back)
         return ans
         
