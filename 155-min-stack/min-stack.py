@@ -13,27 +13,20 @@ class MinStack(object):
             self.min = value
             self.stack.append(value)
         else:
-            if value >= self.min:
-                self.stack.append(value)
-            else:
-                # x < oldMin 
-                # 2x < oldMin + x
-                # 2x - oldMin < x
-                self.stack.append((2 * value) - self.min)
+            if value < self.min:
+                self.stack.append(2 * value - self.min) 
                 self.min = value
+            else:
+                self.stack.append(value)
 
     def pop(self):
         """
         :rtype: None
         """
         if self.stack[-1] < self.min:
-            # return self.min
-            val = self.stack.pop()
-            val -= (self.min * 2)
-            val = -val
-            self.min = val
-        else:
-            self.stack.pop()
+            self.min = - (self.stack[-1] - 2*self.min)
+        self.stack.pop()
+        
 
     def top(self):
         """
@@ -41,15 +34,13 @@ class MinStack(object):
         """
         if self.stack[-1] < self.min:
             return self.min
-        else:
-            return self.stack[-1]
+        return self.stack[-1]
 
     def getMin(self):
         """
         :rtype: int
         """
         return self.min
-
 
 # Your MinStack object will be instantiated and called as such:
 # obj = MinStack()
