@@ -10,10 +10,10 @@ class Solution:
         for i in range(len(nums)):
             node = TreeNode(nums[i])
             while stack and stack[-1].val < node.val:
-                node.left = stack.pop() 
+                node.left = stack.pop()
             
-            if stack:
+            if stack and node.val < stack[-1].val:
                 stack[-1].right = node
-            
+
             stack.append(node)
         return stack[0]
