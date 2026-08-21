@@ -3,7 +3,7 @@ class Solution:
         # maxi = float('-inf')
         dp = [1 for i in range(len(nums))]
 
-        for i in range(len(nums) + 1):
+        for i in range(1, len(nums) + 1):
             for j in range(1, i):
                 # print(i - 1, j - 1, nums[j - 1], nums[i - 1])
                 if nums[j - 1] < nums[i - 1]:
