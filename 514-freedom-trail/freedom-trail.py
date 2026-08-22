@@ -8,7 +8,7 @@ class Solution:
 
             if left == -1:
                 return min(fn(i, j, True), fn(i, j, False))
-            print(i, j, len(ring), len(key))
+            # print(i, j, len(ring), len(key))
             if ring[i] == key[j]:
                 return 1 + fn(i, j + 1, -1)
 
