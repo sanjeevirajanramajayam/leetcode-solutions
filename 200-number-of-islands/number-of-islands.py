@@ -1,27 +1,25 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        visited = set()
         ROWS = len(grid)
         COLS = len(grid[0])
-        visited = set()
-        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        def bfs(i, j):
-            queue = deque([(i, j)])
+        
+        def dfs(i, j):
+            visited.add((i, j))
 
-            while queue:
-                x, y = queue.popleft()
-                for dx, dy in directions:
-                    nx, ny = x + dx, y + dy
-                    if nx >= 0 and nx < ROWS and ny >= 0 and ny < COLS:
-                        if grid[nx][ny] == '1' and (nx, ny) not in visited:
-                            queue.append((nx, ny))
-                            visited.add((nx, ny))
+            for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                nx = i + dx
+                ny = j + dy
+
+                if nx >= 0 and nx < ROWS and ny >= 0 and ny < COLS and grid[nx][ny] == "1":
+                    if (nx, ny) not in visited:
+                        dfs(nx, ny)
         cnt = 0
         for i in range(ROWS):
             for j in range(COLS):
-                if (i, j) not in visited and grid[i][j] == '1':
-                    # print(i, j
-                    visited.add((i, j))
-
-                    bfs(i, j)
+                if grid[i][j] == "1" and (i, j) not in visited:
+                    # print(i, j)
+                    dfs(i, j)
                     cnt += 1
         return cnt
+        
