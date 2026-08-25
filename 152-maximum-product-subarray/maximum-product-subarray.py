@@ -1,17 +1,18 @@
 class Solution:
     def maxProduct(self, nums: List[int]) -> int:
+        prefixProd = 1
+        suffixProd = 1
         maxProd = float('-inf')
-        prod = 1
-        suffix = 1
         for i in range(len(nums)):
-            prod *= nums[i]
-            suffix *= nums[len(nums) - 1 - i]
-            # print(prod, suffix)
-            maxProd = max(maxProd, prod, suffix)
+            prefixProd *= nums[i]
+            maxProd = max(maxProd, prefixProd)
+            if prefixProd == 0:
+                prefixProd = 1
 
-            if prod == 0:
-                prod = 1
-            
-            if suffix == 0:
-                suffix = 1
+        for i in range(len(nums) - 1, -1, -1):
+            suffixProd *= nums[i]
+            maxProd = max(maxProd, suffixProd)
+            if suffixProd == 0:
+                suffixProd = 1
+        
         return maxProd
