@@ -1,57 +1,53 @@
-class Solution(object):
-    def removeStones(self, stones):
-        """
-        :type stones: List[List[int]]
-        :rtype: int
-        """
+class Solution:
+    def removeStones(self, stones: List[List[int]]) -> int:
         class DSU:
             def __init__(self, V):
-                self.rank = [0 for i in range(V)]
+                self.V = V
                 self.parent = [i for i in range(V)]
-                self.totalWt = 0
-
+                self.rank = [0 for i in range(V)]
+            
             def find_parent(self, node):
                 if node == self.parent[node]:
                     return node
                 self.parent[node] = self.find_parent(self.parent[node])
-                return self.parent[node]
+                return self.parent[node] 
             
-            def union(self, x, y):
-                xP = self.find_parent(x)
-                yP = self.find_parent(y)
+            def union(self, u, v):
+                uPar = self.find_parent(u)
+                vPar = self.find_parent(v)
+
+                if uPar == vPar:
+                    return
                 
-                if xP == yP:
-                    return 
-                    
-                if self.rank[xP] > self.rank[yP]:
-                    self.parent[yP] = xP
-                elif self.rank[xP] < self.rank[yP]:
-                    self.parent[xP] = yP
+                if self.rank[uPar] > self.rank[vPar]:
+                    self.parent[vPar] = uPar 
+                elif self.rank[vPar] > self.rank[uPar]:
+                    self.parent[uPar] = vPar
                 else:
-                    self.parent[xP] = yP
-                    self.rank[yP] += 1
-
-        colMax = 0
-        rowMax = 0
-        for i in range(len(stones)):
-            colMax = max(colMax, stones[i][1])
-            rowMax = max(rowMax, stones[i][0])
+                    self.parent[uPar] = vPar
+                    self.rank[vPar] += 1
         
-        dsu = DSU(rowMax + colMax + 2)
+        ROWS = 0
+        COLS = 0
 
-        seenStones = set()
+        for i, j in stones:
+            ROWS = max(ROWS, i)
+            COLS = max(COLS, j)
 
-        for (row, col) in stones:
-            Crow = row
-            Ccol = col + rowMax + 1
-            dsu.union(Crow, Ccol)
-            seenStones.add(Crow)
-            seenStones.add(Ccol)
+        ROWS += 1
+        COLS += 1
+
+        dsu = DSU(ROWS + COLS)
+        for row, col in stones:
+            newCol = col + ROWS
+            dsu.union(row, newCol)
         
-        component = 0
+        # print(dsu.parent)
 
-        for stone in seenStones:
-            if dsu.find_parent(stone) == stone:
-                component += 1
-        
-        return len(stones) - component
+        roots = set()
+
+        for row, col in stones:
+            roots.add(dsu.find_parent(row))
+            roots.add(dsu.find_parent(col + ROWS))
+
+        return len(stones) - len(roots)
