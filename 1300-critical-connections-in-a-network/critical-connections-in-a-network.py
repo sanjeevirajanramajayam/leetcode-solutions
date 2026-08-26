@@ -1,40 +1,32 @@
-class Solution(object):
-    def criticalConnections(self, n, connections):
-        """
-        :type n: int
-        :type connections: List[List[int]]
-        :rtype: List[List[int]]
-        """
-
+class Solution:
+    def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
+        timer = 0
+        time = [0] * n
+        low = [0] * n
+        visited = set()
+        timer = 0
         adjList = [[] for i in range(n)]
-
         for startNode, endNode in connections:
             adjList[startNode].append(endNode)
             adjList[endNode].append(startNode)
-        
-        low = [0 for i in range(n)]
-        time = [0 for i in range(n)]
-        visited = [0 for i in range(n)]
-        timer = [0]
-        bridges = []
-
+        ans = []
         def dfs(node, parent):
-            # nonlocal timer
-            visited[node] = 1
-            time[node] = timer[0]
-            low[node] = timer[0] 
-            timer[0] += 1
-
-            for newNode in adjList[node]:
-                if newNode != parent:
-                    if visited[newNode] == 0:
-                        dfs(newNode, node)
-                        low[node] = min(low[node], low[newNode])
-                        if low[newNode] > time[node]:
-                            bridges.append([node, newNode])
-                            # print(bridges)
-                    else:
-                        low[node] = min(low[node], low[newNode])
+            nonlocal ans, timer
+            print(node, parent)
+            time[node] = low[node] = timer
+            timer += 1
+            visited.add(node)
+            for nnode in adjList[node]:
+                # print(nnode)
+                if nnode == parent:
+                    continue
+                if nnode not in visited:
+                    dfs(nnode, node)
+                    low[node] = min(low[nnode], low[node])
+                    if low[nnode] > time[node]:
+                        ans.append([node, nnode])
+                else:
+                    low[node] = min(low[nnode], low[node])
 
         dfs(0, -1)
-        return bridges
+        return ans
