@@ -1,53 +1,45 @@
-class Solution(object):
-    def makeConnected(self, n, connections):
-        """
-        :type n: int
-        :type connections: List[List[int]]
-        :rtype: int
-        """
+class Solution:
+    def makeConnected(self, n: int, connections: List[List[int]]) -> int:
         class DSU:
-            def __init__(self):
-                self.parent = [i for i in range(n)]
-                self.rank = [0] * n
-                self.extra = 0
-
-            def uPar(self, node):
+            def __init__(self, V):
+                self.V = V
+                self.parent = [i for i in range(V)]
+                self.rank = [0 for i in range(V)]
+            
+            def find_parent(self, node):
                 if node == self.parent[node]:
                     return node
-                self.parent[node] = self.uPar(self.parent[node])
-                return self.parent[node]
+                self.parent[node] = self.find_parent(self.parent[node])
+                return self.parent[node] 
             
-            def union(self, x, y):
-                uX = self.uPar(x)
-                uY = self.uPar(y)
+            def union(self, u, v):
+                uPar = self.find_parent(u)
+                vPar = self.find_parent(v)
 
-                if uX == uY:
-                    self.extra += 1
-                    return 
-
-                if self.rank[uX] > self.rank[uY]:
-                    self.parent[uY] = uX
-                elif self.rank[uX] < self.rank[uY]:
-                    self.parent[uX] = uY
-                else:
-                    self.parent[uX] = uY
-                    self.rank[uY] += 1
-            
-            def get_components(self):
-                nc = 0
-                for i in range(len(self.parent)):
-                    if i == self.parent[i]:
-                        nc += 1
-                return nc
+                if uPar == vPar:
+                    return
                 
-        requiredEdges = n - 1
-        dsu = DSU()
+                if self.rank[uPar] > self.rank[vPar]:
+                    self.parent[vPar] = uPar 
+                elif self.rank[vPar] > self.rank[uPar]:
+                    self.parent[uPar] = vPar
+                else:
+                    self.parent[uPar] = vPar
+                    self.rank[vPar] += 1
+        dsu = DSU(n)
+        extra = 0
         for startNode, endNode in connections:
-            dsu.union(startNode, endNode)
+            if dsu.find_parent(startNode) == dsu.find_parent(endNode):
+                extra += 1
+            else:
+                dsu.union(startNode, endNode)
+        nc = 0
+        # print(dsu.parent)
+        for i in range(n):
+            if dsu.parent[i] == i:
+                nc += 1
         
-        nc = dsu.get_components()
-
-        if dsu.extra >= (nc - 1):
+        if extra >= nc - 1:
             return nc - 1
         else:
             return -1
