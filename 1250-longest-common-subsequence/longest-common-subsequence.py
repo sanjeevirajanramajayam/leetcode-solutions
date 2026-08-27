@@ -1,14 +1,18 @@
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        @cache
-        def fn(i, j):
-            if i < 0 or j < 0:
-                return 0
-            maxi = float('-inf')
-            if text1[i] == text2[j]:
-                maxi = 1 + max(maxi, fn(i - 1, j - 1))
-            else:
-                maxi = max(maxi, fn(i - 1, j), fn(i, j - 1))
-            
-            return maxi
-        return fn(len(text1) - 1, len(text2) - 1 )
+        dp = [[0 for i in range(len(text2) + 1)] for i in range(len(text1) + 1)]
+        maxi = float('-inf')
+        for i in range(1, len(text1) + 1):
+            for j in range(1, len(text2) + 1):
+                if text1[i - 1] == text2[j - 1]:
+                    dp[i][j] = 1 + dp[i - 1][j - 1]
+                    maxi = max(maxi, dp[i][j])
+                else:
+                    # print(i, j, len(dp), len(dp[0]))
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+                    maxi = max(maxi, dp[i][j])
+
+        # print(dp)
+        # for x in dp:
+            # print(x)
+        return maxi
