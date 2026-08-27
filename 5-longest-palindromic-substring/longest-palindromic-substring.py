@@ -1,11 +1,22 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
+        maxLen = float('-inf')
         ans = ""
         for i in range(len(s)):
-            temp = ""
-            for j in range(i, len(s)):
-                temp += s[j]
-                if temp == temp[::-1]:
-                    if len(temp) > len(ans):
-                        ans = temp
+            l, r = i, i
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                if (r - l + 1) > maxLen:
+                    maxLen = r - l + 1
+                    ans = s[l:r+1]
+                l -= 1
+                r += 1
+            l, r = i, i + 1
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                if (r - l + 1) > maxLen:
+                    maxLen = r - l + 1
+                    ans = s[l:r+1]
+                l -= 1
+                r += 1
+
         return ans
+                
