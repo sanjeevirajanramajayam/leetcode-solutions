@@ -12,7 +12,7 @@ class Solution:
         ans = []
         def dfs(node, parent):
             nonlocal ans, timer
-            print(node, parent)
+            # print(node, parent)
             time[node] = low[node] = timer
             timer += 1
             visited.add(node)
