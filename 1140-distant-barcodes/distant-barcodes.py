@@ -1,17 +1,27 @@
 class Solution:
     def rearrangeBarcodes(self, barcodes: List[int]) -> List[int]:
-        # oldS = s[:]
         c = Counter(barcodes)
-        heap = [(-x, ch) for ch, x in c.items()]
-        s = []
-        heapq.heapify(heap)
-        temp = (1, -1)
+
+        heap = []
+
+        for num, freq in c.items():
+            heapq.heappush(heap, (-freq, num))
+        # print(heap)
+        ans = []
+        temp = None
+
         while heap:
-            # print(heap)
-            freq, char = heapq.heappop(heap)
-            s.append(char)
-            if temp[0] < 0:
+            freq, num = heapq.heappop(heap)
+            ans.append(num)
+            freq = -freq
+            # print(ans, heap)
+            if temp:
                 heapq.heappush(heap, temp)
-            temp = (freq + 1, char)
-        # print(s)
-        return s
+                temp = None
+                
+            if freq - 1 > 0:            
+                if temp is None:
+                    temp = ((-(freq - 1),num))
+            # print(heap)
+            
+        return ans
