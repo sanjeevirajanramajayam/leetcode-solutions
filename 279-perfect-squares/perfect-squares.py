@@ -1,16 +1,15 @@
 class Solution:
     def numSquares(self, n: int) -> int:
         @cache
-        def fn(target):
-            print(target)
-            if target == 0:
+        def fn(n):
+            if n <= 0:
                 return 0
-            if target == 1:
-                return 1
+            # print(n)
+            mini = float('inf')
             i = 1
-            ans = float('inf')
-            while i * i <= target:
-                ans = min(ans, 1 + fn(target - (i * i)))
+            while i * i <= n:
+                mini = min(1 + fn(n - (i * i)), mini) 
                 i += 1
-            return ans
+            return mini
+        
         return fn(n)
