@@ -9,7 +9,7 @@ class Solution:
             hash[s[r]] = hash.get(s[r], 0) + 1
             maxFreq = max(maxFreq, hash[s[r]])
             
-            while maxFreq + k < (r - l + 1):
+            if maxFreq + k < (r - l + 1):
                 # print(l)
                 hash[s[l]] = hash.get(s[l], 0) - 1
                 l += 1
