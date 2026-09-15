@@ -10,20 +10,21 @@ class Node:
 
 class Solution:
     def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
-        if not root:
-            return root
-        nxt = None
-        if root.left:
-            nxt = root.left
         curr = root
-
-        while curr and nxt:
-            # print(curr.val, nxt.val)
-            curr.left.next = curr.right
-            if curr.next:
-                curr.right.next = curr.next.left
+        if not root:
+            return
+        next = root.left
+        while curr and next:
+            next = curr.left
+            if curr.left:
+                curr.left.next = curr.right
+                print(curr.val, next.val)
+            while curr.next:
+                if curr.right:
+                    curr.right.next = curr.next.left
                 curr = curr.next
-            else:
-                curr = nxt
-                nxt = nxt.left
+                if curr.left:
+                    curr.left.next = curr.right
+            curr = next
+
         return root
