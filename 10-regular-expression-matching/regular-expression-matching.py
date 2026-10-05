@@ -1,5 +1,6 @@
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
+        @cache
         def fn(i, j):
             if j == len(p):
                 return i == len(s)
