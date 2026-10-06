@@ -1,30 +1,34 @@
 class Solution:
-    def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
-        timer = 0
-        time = [0 for i in range(n)]
-        low = [0 for i in range(n)]
-
+    def criticalConnections(self, n: int, connections: list[list[int]]) -> list[list[int]]:
+        low = [0] * n
+        tin = [0] * n
+        time = 0
+        visited = set([0])
+        ans = []
         adjList = [[] for i in range(n)]
 
-        for a, b in connections:
-            adjList[a].append(b)
-            adjList[b].append(a)
-        ans = []
-        visited = set()
+        for start, end in connections:
+            adjList[start].append(end)
+            adjList[end].append(start)
+
         def dfs(node, parent):
-            nonlocal ans, timer
-            time[node] = low[node] = timer
-            timer += 1
+            nonlocal time
+            low[node] = tin[node] = time
+            time += 1
             visited.add(node)
+            # print(node, parent, low, tin, time)
+
             for nnode in adjList[node]:
                 if nnode == parent:
                     continue
                 if nnode not in visited:
                     dfs(nnode, node)
-                    if low[nnode] > time[node]:
+                    # print(nnode, node)
+                    # print(low, tin)
+                    low[node] = min(low[node], low[nnode])
+                    if low[nnode] > tin[node]:
                         ans.append([node, nnode])
-                    low[node] = min(low[node], low[nnode])
                 else:
-                    low[node] = min(low[node], low[nnode])
+                    low[node] = min(low[node], tin[nnode])
         dfs(0, -1)
         return ans
