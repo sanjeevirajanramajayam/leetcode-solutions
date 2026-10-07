@@ -1,24 +1,18 @@
-class Solution(object):
-    def trap(self, height):
-        """
-        :type height: List[int]
-        :rtype: int
-        """
-        prefixList = [0]
-        prefixMax = 0
+class Solution:
+    def trap(self, height: list[int]) -> int:
+        prefixMax = [0]
+        suffixMax = [0] * len(height)
 
         for i in range(1, len(height)):
-            prefixMax = max(prefixMax, height[i - 1])
-            prefixList.append(prefixMax)
-
-        suffixList = [0] * len(height)
-        suffixMax = 0
-
+            prefixMax.append(max(prefixMax[-1], height[i - 1]))
+        
         for i in range(len(height) - 2, -1, -1):
-            suffixMax = max(suffixMax, height[i + 1])
-            suffixList[i] = (suffixMax)
-        trapped = 0
+            suffixMax[i] = (max(suffixMax[i + 1], height[i + 1]))
+        ans = 0
         for i in range(len(height)):
-            if height[i] < suffixList[i] and height[i] < prefixList[i]:
-                trapped += min(suffixList[i], prefixList[i]) - height[i]
-        return trapped
+
+            if height[i] < prefixMax[i] and height[i] < suffixMax[i]:
+                # print(i, height[i], prefixMax[i], suffixMax[i])
+                ans += min(prefixMax[i], suffixMax[i]) - height[i]
+                # print(ans)
+        return ans
