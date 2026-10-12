@@ -1,20 +1,21 @@
 class Solution:
-    def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
+    def kSmallestPairs(self, nums1: list[int], nums2: list[int], k: int) -> list[list[int]]:
+        A, B = nums1, nums2 
+        swapped = False
+        if A[0] > B[0]:
+            A, B = B, A 
+            swapped = True
         heap = []
-
-        for i in range(min(k, len(nums2))):
-            heapq.heappush(heap, (nums1[0] + nums2[i], 0, i))
-
-        print(heap)
+        for i in range(len(B)):
+            heap.append((A[0] + B[i], 0, i))
+        heapq.heapify(heap)
         ans = []
-        while heap and k > 0:
-            total, i, j = heapq.heappop(heap)
-            ans.append([nums1[i], nums2[j]])
-            if i + 1 < len(nums1):
-                heapq.heappush(
-                    heap,
-                    (nums1[i + 1] + nums2[j], i + 1, j)
-                )
-
-            k -= 1
-        return ans
+        while k > 0:
+            add, Aind, Bind = heapq.heappop(heap)
+            ans.append([A[Aind], B[Bind]])
+            if swapped:
+                ans[-1] = ans[-1][::-1]
+            if Aind + 1 < len(A):
+                heapq.heappush(heap, (B[Bind] + A[Aind + 1], Aind + 1, Bind))        
+            k -= 1  
+        return (ans)  
