@@ -1,45 +1,47 @@
 class Solution:
-    def makeConnected(self, n: int, connections: List[List[int]]) -> int:
+    def makeConnected(self, n: int, connections: list[list[int]]) -> int:
         class DSU:
-            def __init__(self, V):
-                self.V = V
-                self.parent = [i for i in range(V)]
-                self.rank = [0 for i in range(V)]
+            def __init__(self, n):
+                self.n = n
+                self.parent = [i for i in range(n)]
+                self.rank = [1 for i in range(n)]
+                self.extra = 0
             
             def find_parent(self, node):
                 if node == self.parent[node]:
-                    return node
+                    return node 
                 self.parent[node] = self.find_parent(self.parent[node])
-                return self.parent[node] 
+                return self.parent[node]
             
-            def union(self, u, v):
-                uPar = self.find_parent(u)
-                vPar = self.find_parent(v)
+            def union(self, x, y):
+                rX = self.find_parent(x)
+                rY = self.find_parent(y)
 
-                if uPar == vPar:
-                    return
-                
-                if self.rank[uPar] > self.rank[vPar]:
-                    self.parent[vPar] = uPar 
-                elif self.rank[vPar] > self.rank[uPar]:
-                    self.parent[uPar] = vPar
+                if rX == rY:
+                    self.extra += 1
                 else:
-                    self.parent[uPar] = vPar
-                    self.rank[vPar] += 1
+                    if self.rank[rX] > self.rank[rY]:
+                        self.rank[rX] += 1
+                        self.parent[rY] = rX
+                    elif self.rank[rY] > self.rank[rX]:
+                        self.rank[rY] += 1
+                        self.parent[rX] = rY
+                    else:
+                        self.rank[rX] += 1
+                        self.parent[rY] = rX
+
         dsu = DSU(n)
-        extra = 0
-        for startNode, endNode in connections:
-            if dsu.find_parent(startNode) == dsu.find_parent(endNode):
-                extra += 1
-            else:
-                dsu.union(startNode, endNode)
-        nc = 0
-        # print(dsu.parent)
-        for i in range(n):
-            if dsu.parent[i] == i:
-                nc += 1
+
+        for start, end in connections:
+            dsu.union(start, end)
         
-        if extra >= nc - 1:
-            return nc - 1
+        # print(dsu.extra)
+        # print(dsu.parent)
+        components = 0
+        for i in range(len(dsu.parent)):
+            if i == dsu.parent[i]:
+                components += 1
+        if dsu.extra >= components - 1:
+            return components - 1
         else:
             return -1
