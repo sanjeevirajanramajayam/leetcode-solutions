@@ -1,33 +1,28 @@
 class Solution:
-    def largestSubmatrix(self, matrix: List[List[int]]) -> int:
-        row = matrix[0]
-        maxArea = 0
-        minW = float('inf')
-        temp = row[:]
-        row.sort(reverse=True)
-        # print(row)
-        for i in range(len(row)):
-            if row[i] == 1:
-                minW = min(minW, row[i])
-                maxArea = max(maxArea, minW * (i + 1))
-        row = temp
-        for k in range(1, len(matrix)):
-            minW = float('inf')
-            # row = matrix[k]
-            for i in range(len(matrix[k])):
-                if matrix[k][i] == 1:
-                    row[i] += 1
+    def largestSubmatrix(self, matrix: list[list[int]]) -> int:
+        ROWS = len(matrix)
+        COLS = len(matrix[0])
+        maxArea = float('-inf')
+        dst = matrix[0]
+
+        tempdst = sorted(dst)[::-1]
+        # print(tempdst)
+        mini = float('inf')
+        for j in range(COLS):
+            # mini = min(mini, tempdst[j])
+            maxArea = max(maxArea, tempdst[j] * (j + 1))
+
+        for i in range(1, ROWS):
+            for j in range(COLS):
+                if matrix[i][j] == 0:
+                    dst[j] = 0 
                 else:
-                    row[i] = 0
-            # print(row)
-            
-            temp = row[:]
-            row.sort(reverse=True)
-            # print(row)
-            for i in range(len(row)):
-                if row[i] != 0:
-                    minW = min(minW, row[i])
-                    maxArea = max(maxArea, minW * (i + 1))
-                    # print(minW, i + 1)
-            row = temp
+                    dst[j] += 1 
+            # print(dst)
+            tempdst = sorted(dst)[::-1]
+            # print(tempdst)
+            mini = float('inf')
+            for j in range(COLS):
+                # mini = min(mini, tempdst[j])
+                maxArea = max(maxArea, tempdst[j] * (j + 1))
         return maxArea
