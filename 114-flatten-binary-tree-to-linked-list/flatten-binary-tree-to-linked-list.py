@@ -5,18 +5,18 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def flatten(self, root: Optional[TreeNode]) -> None:
+    def flatten(self, root: TreeNode | None) -> None:
         """
         Do not return anything, modify root in-place instead.
         """
         prev = None
-        def flatten(root):
+        def fn(root):
             nonlocal prev
             if root == None:
-                return None
-            flatten(root.right)
-            flatten(root.left)
-            root.right = prev
-            root.left = None
-            prev = root
-        flatten(root)
+                return None 
+            fn(root.right)
+            fn(root.left)
+            root.left = None 
+            root.right = prev 
+            prev = root 
+        fn(root)
