@@ -1,15 +1,9 @@
 class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        maxProfit = 0
+    def maxProfit(self, nums: list[int]) -> int:
         l = 0
-        r = 1
-        while r < len(prices):
-            if prices[r] < prices[l]:
-                l = r
-                r += 1
-                continue
-            if r >= len(prices):
-                break
-            maxProfit = max(maxProfit, prices[r] - prices[l])
-            r += 1
+        maxProfit = 0 
+        for r in range(len(nums)):
+            maxProfit = max(maxProfit, nums[r] - nums[l])
+            if nums[r] < nums[l]:
+                l = r 
         return maxProfit
